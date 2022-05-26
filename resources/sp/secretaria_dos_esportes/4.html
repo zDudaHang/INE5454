@@ -1,0 +1,699 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head id="Head1">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><title>
+
+</title><link rel="stylesheet" type="text/css" href="bootstrap.css"><link href="Remuneracao_data/relatorios.css" rel="stylesheet" type="text/css"><link href="Remuneracao_data/jquery-ui-1.css" rel="stylesheet">
+    <script src="Remuneracao_data/jquery-1.js"></script>
+    <script src="Remuneracao_data/jquery-ui-1.js"></script>
+    <script type="text/javascript" src="Remuneracao_data/JSScript.js"></script>
+    <script type="text/javascript" src="Remuneracao_data/banner.js"></script><style type="text/css">
+.submenu{display: none;}
+</style>
+
+    <!-- Responsivo -->
+    <script src="jquery-1_002.js"></script>
+    <script>        window.jQuery || document.write('<script src="js/vendor/jquery-1.11.0.min.js"><\/script>')</script>
+    <script src="bootstrap.js"></script>
+    <script src="plugins.js"></script>
+    <script src="main.js"></script>
+    <script language="javascript" type="text/javascript">
+        function isNumberKey(evt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode
+            if (charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+
+            return true;
+        }
+
+        function AbrirHorelit2(holerit) {
+            var left = (screen.width / 2) - (800 / 2);
+            var top = (screen.height / 2) - (600 / 2);
+
+            var OpenWindow = window.open("Holerite.aspx", "_blank", 'scrollbars=yes,resizable=no,top=' + top + ',left=' + left + ',width=800,height=600');
+            OpenWindow.onload = function () { this.document.body.innerHTML += holerit };
+        }
+
+
+        function AbrirHorelit(obj, holerite) {
+            $('body').append(String.format("<div id='dialog' title='Holerite'>{0}</div>", holerite));
+            $('#' + obj).focus();
+
+            $('#dialog').dialog({
+                modal: true,
+                autoOpen: true,
+                width: 800,
+                height: 600,
+                resizable: false,
+                draggable: true,
+                close: function (event, ui) { $('body').find('#dialog').remove(); },
+                buttons: {
+                    "Fechar": function () {
+                        $('body').find('#dialog').remove();
+                    }
+                }
+            });
+
+            return dialogConfirmed;
+        }
+
+    </script>
+    <style>
+        .buscaSERV
+        {
+            font-family: Arial, Helvetica, sans-serif;
+            color: #666;
+            width: 100%;
+            padding: 10px;
+            text-shadow: 1px 1px 0px #fff;
+            border: #ccc 1px solid;
+            -moz-border-radius: 3px;
+            -webkit-border-radius: 3px;
+            border-radius: 3px;
+            -moz-box-shadow: 0 1px 2px #d1d1d1;
+            -webkit-box-shadow: 0 1px 2px #d1d1d1;
+            box-shadow: 0 1px 2px #d1d1d1;
+        }
+        
+        
+        
+        
+        #dialog
+        {
+            height: 300px;
+        }
+        .imgRemu
+        {
+            border: 0px;
+            width: 36px;
+            height: 36px;
+            padding: 0px;
+            border-radius: 0px;
+        }
+        
+        .maxINPUT
+        {
+            width: 100%;
+            max-width: 500px;
+        }
+    </style>
+</head>
+<body style="border: 0; padding: 0; margin: 0;">
+    <form method="post" action="Remuneracao.aspx" id="form1">
+<div class="aspNetHidden">
+
+
+
+
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['form1'];
+if (!theForm) {
+    theForm = document.form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="Remuneracao_data/WebResource.js" type="text/javascript"></script>
+
+
+<script src="Remuneracao_data/ScriptResource.js" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+if (typeof(Sys) === 'undefined') throw new Error('ASP.NET Ajax client-side framework failed to load.');
+//]]>
+</script>
+
+<script src="Remuneracao_data/ScriptResource_002.js" type="text/javascript"></script>
+<div class="aspNetHidden">
+
+	
+	
+</div>
+    <script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('ScriptManager1', 'form1', ['tuppPanel','uppPanel'], ['btnExibirRelatorio','btnExibirRelatorio'], [], 999, '');
+//]]>
+</script>
+
+    <div class="formulario">
+        <div class="buscaSERV">
+            <div class="col-md-1 col-sm-2 col-xs-12 spaceV">
+                <label>
+                    Nome:</label>
+            </div>
+            <div class="col-md-11 col-sm-10 col-xs-12 spaceV">
+                <input name="txtNome" type="text" maxlength="100" id="txtNome" style="width:90%;">
+            </div>
+            <div class="col-md-1 col-sm-2 col-xs-12 spaceV">
+                <label>
+                    Órgão:</label>
+            </div>
+            <div class="col-md-11 col-sm-10 col-xs-12 spaceV">
+                <select name="orgao" onchange="javascript:setTimeout('__doPostBack(\'orgao\',\'\')', 0)" id="orgao" class="maxINPUT">
+	<option value="-1">TODOS</option>
+	<option value="1">ADMINISTRACAO GERAL DO ESTADO</option>
+	<option value="2">AG.M.V.PAR.LIT.NORTE AGEMVALE</option>
+	<option value="3">AG.MET.SOROCABA AGEMSOROCABA</option>
+	<option value="4">AG.REG.SERV.PUB.EST.SP ARSESP</option>
+	<option value="5">AG.REG.SV.P.DEL.TR.E.SP ARTESP</option>
+	<option value="6">AGENCIA MET.CAMPINAS AGEMCAMP</option>
+	<option value="7">AGENCIA METROP.B.SANTISTA AGEM</option>
+	<option value="8">C.E.ED.TEC.PAULA SOUZA-CEETEPS</option>
+	<option value="9">C.P.TRENS METROPOLITANOS-CPTM</option>
+	<option value="10">CAIXA BENEFIC.POLICIA MILITAR</option>
+	<option value="11">CASA CIVIL</option>
+	<option value="12">CETESB-CIA.AMBIENTAL EST.S.P.</option>
+	<option value="13">CIA.DES.HAB.URB.EST.S.P.-CDHU</option>
+	<option value="14">CIA.PAULIS.SECURITIZACAO CPSEC</option>
+	<option value="15">CIA.PAULISTA PARCERIAS CPP</option>
+	<option value="16">CIA.PROC.DADOS EST.S.P-PRODESP</option>
+	<option value="17">COM.SAN.BAS.EST.S.PAULO SABESP</option>
+	<option value="18">COMP.METROPOLITANO S.P.-METRO</option>
+	<option value="19">COMPANHIA DOCAS SAO SEBASTIAO</option>
+	<option value="20">DAESP</option>
+	<option value="21">DEPARTAM.ESTRADAS RODAGEM DER</option>
+	<option value="22">DEPTO. EST. TRANSITO DETRAN SP</option>
+	<option value="23">DEPTO.AGUAS ENER.ELETRICA DAEE</option>
+	<option value="24">DESENVOLV.RODOVIARIO S/A-DERSA</option>
+	<option value="25">DESENVOLVE SP AG.FOM.E.S.PAULO</option>
+	<option value="26">EMAE EMP.MET.AGUAS ENERGIA S/A</option>
+	<option value="27">EMP.METR.TR.URB.SP.S/A-EMTU-SP</option>
+	<option value="28">FAC.MED.S.J.R.PRETO-FAMERP</option>
+	<option value="29">FAC.MEDICINA MARILIA-FAMEMA</option>
+	<option value="30">FITESP-JOSE GOMES DA SILVA</option>
+	<option value="31">FUND.AMPARO PESQ.EST.SP-FAPESP</option>
+	<option value="32">FUND.CONS.PR.FLOR.EST.SP F.FL.</option>
+	<option value="33">FUND.MEMORIAL AMERICA LATINA</option>
+	<option value="34">FUND.PE.ANCHIETA-C.P.RADIO TV.</option>
+	<option value="35">FUND.PF.DR.M.P.PIMENTEL-FUNAP</option>
+	<option value="36">FUND.PREV.COMPL.EST.SP PREVCOM</option>
+	<option value="37">FUND.PRO-SANGUE-HEMOCENTRO S.P</option>
+	<option value="38">FUND.REM.POP."C.T.LIMA"-FURP</option>
+	<option value="39">FUND.SIST.EST.ANAL.DADOS SEADE</option>
+	<option value="40">FUND.UN.VIRTUAL EST.SP UNIVESP</option>
+	<option value="41">FUNDACAO CASA-SP.</option>
+	<option value="42">FUNDACAO DESENV.EDUCACAO-FDE</option>
+	<option value="43">FUNDACAO ONCOCENTRO SAO PAULO</option>
+	<option value="44">FUNDACAO PARQUE ZOOLOGICO DE S</option>
+	<option value="45">FUNDACAO PROCON</option>
+	<option value="46">GABINETE DO GOVERNADOR</option>
+	<option value="47">H.C.FAC.MED.BOTUCATU-HCFMB</option>
+	<option value="48">HC FAC MEDICINA RIB PRETO USP</option>
+	<option value="49">HOSP.CLIN.FAC.MED.MARILIA</option>
+	<option value="50">HOSP.CLIN.FAC.MED.USP-HCFMUSP</option>
+	<option value="51">INST MED SOC CRIMINO SP- IMESC</option>
+	<option value="52">INST.AS.MED.SER.PUB.EST IAMSPE</option>
+	<option value="53">INST.PAGTOS.ESPECIAIS SP-IPESP</option>
+	<option value="54">INST.PESOS MEDID.E.S.P-IPEM/SP</option>
+	<option value="55">INST.PESQ.TECNOLOGICAS EST.S.P</option>
+	<option value="56">JUNTA COMERC.E.S.PAULO-JUCESP</option>
+	<option value="57">POLICIA MILITAR SAO PAULO</option>
+	<option value="58">PROCURADORIA GERAL DO ESTADO</option>
+	<option value="59">SAO PAULO PREVIDENCIA   SPPREV</option>
+	<option value="60">SEC.TRANSPORTES METROPOLITANOS</option>
+	<option value="61">SECR.AGRICULTURA ABASTECIMENTO</option>
+	<option value="62">SECR.CULTURA ECONOMIA CRIATIVA</option>
+	<option value="63">SECR.DESENVOLVIMENTO ECONOMICO</option>
+	<option value="64">SECR.EST.DIR.PES.C/DEFICIENCIA</option>
+	<option value="65">SECRET. FAZENDA PLANEJAMENTO</option>
+	<option value="66">SECRET.ADMINISTR.PENITENCIARIA</option>
+	<option value="67">SECRETARIA DA EDUCACAO</option>
+	<option value="68">SECRETARIA DA HABITACAO</option>
+	<option value="69">SECRETARIA DA SAUDE</option>
+	<option value="70">SECRETARIA DE DESENVOLVIMENTO</option>
+	<option selected="selected" value="71">SECRETARIA DE ESPORTES</option>
+	<option value="72">SECRETARIA DE GOVERNO</option>
+	<option value="73">SECRETARIA DESENV. REGIONAL</option>
+	<option value="74">SECRETARIA INF. MEIO AMBIENTE</option>
+	<option value="75">SECRETARIA JUSTICA E CIDADANIA</option>
+	<option value="76">SECRETARIA LOGIST. TRANSPORTES</option>
+	<option value="77">SECRETARIA ORCAMENTO E GESTAO</option>
+	<option value="78">SECRETARIA SEGURANCA PUBLICA</option>
+	<option value="79">SECRETARIA TURISMO E VIAGENS</option>
+	<option value="80">SUPERINT.CONTR.ENDEMIAS-SUCEN</option>
+
+</select>
+            </div>
+            <div class="col-md-1 col-sm-2 col-xs-12 spaceV">
+                <label>
+                    Cargo:</label>
+            </div>
+            <div class="col-md-11 col-sm-10 col-xs-12 spaceV">
+                <select name="cargo" onchange="javascript:setTimeout('__doPostBack(\'cargo\',\'\')', 0)" id="cargo">
+	<option selected="selected" value="-1">TODOS</option>
+	<option value="1363">AG.TEC. DE ASSIST. A SAUDE</option>
+	<option value="130">ANALISTA  ADMINISTRATIVO</option>
+	<option value="1476">ANALISTA SOCIOCULTURAL</option>
+	<option value="226">ASSESSOR DE GABINETE I</option>
+	<option value="2109">ASSESSOR DE GABINETE II</option>
+	<option value="255">ASSESSOR I</option>
+	<option value="2714">ASSESSOR TEC. DE GABINETE II</option>
+	<option value="276">ASSESSOR TEC. DE GABINETE III</option>
+	<option value="1564">ASSESSOR TEC. DE GABINETE IV</option>
+	<option value="1583">ASSESSOR TECNICO II</option>
+	<option value="317">ASSESSOR TECNICO III</option>
+	<option value="2761">ASSESSOR TECNICO IV</option>
+	<option value="1609">ASSESSOR TECNICO V</option>
+	<option value="428">AUXILIAR DE LABORATORIO</option>
+	<option value="2315">AUXILIAR DE SAUDE</option>
+	<option value="1738">AUXILIAR SERV.GERAIS</option>
+	<option value="2379">CHEFE I</option>
+	<option value="2381">CHEFE II</option>
+	<option value="3950">COORDENADOR</option>
+	<option value="3076">DIRETOR I</option>
+	<option value="2520">DIRETOR II</option>
+	<option value="3101">DIRETOR TECNICO I</option>
+	<option value="4046">DIRETOR TECNICO II</option>
+	<option value="728">ENGENHEIRO VI</option>
+	<option value="764">EXECUTIVO PUBLICO</option>
+	<option value="4254">OFICIAL ADMINISTRATIVO</option>
+	<option value="872">OFICIAL OPERACIONAL</option>
+	<option value="3525">OFICIAL SOCIOCULTURAL</option>
+	<option value="3268">SECRETARIO EXECUTIVO</option>
+
+</select>
+            </div>
+            <div class="col-md-1 col-sm-2 col-xs-12 spaceV">
+                <label>
+                    Situação:</label>
+            </div>
+            <div class="col-md-11 col-sm-10 col-xs-12 spaceV">
+                <select name="situacao" onchange="javascript:setTimeout('__doPostBack(\'situacao\',\'\')', 0)" id="situacao">
+	<option selected="selected" value="-1">TODOS</option>
+	<option value="1">APOSENTADOS</option>
+	<option value="2">ATIVOS</option>
+	<option value="3">PENSIONISTAS</option>
+
+</select>
+            </div>
+            <div class="col-md-2 col-sm-3 col-xs-12 spaceV">
+                <label>
+                    Faixa Salarial:</label>
+            </div>
+            <div class="col-md-3 col-sm-3 col-xs-5 spaceV">
+                <label>
+                    de
+                </label>
+                <input name="txtDe" type="text" maxlength="13" id="txtDe" onkeypress="return MascaraMoeda(this,'.',',',event)" style="width:80%;">
+            </div>
+            <div class="col-md-3 col-sm-3 col-xs-5 spaceV">
+                <label>
+                    até
+                </label>
+                <input name="txtAte" type="text" maxlength="13" id="txtAte" onkeypress="return MascaraMoeda(this,'.',',',event)" style="width:80%;margin-right: 0px;
+                    margin-left: 0px">
+            </div>
+            <div class="col-md-12 col-sm-12 col-xs-12 txtCENTER spaceV">
+                <input type="submit" name="btnExibirRelatorio" value="Pesquisar" id="btnExibirRelatorio" class="botao">
+                <input type="submit" name="btnLimpar" value="Limpar Campos" id="btnLimpar" class="botao">
+                <input type="button" class="botao" name="explicativa" id="explicativa" value="Nota explicativa" onclick="parent.location = '../explicativa.html';">
+            </div>
+        </div>
+    </div>
+    <div class="iframeBLUE1">
+        <div style="width: 99%;">
+            <div id="prgLoadingStatus" style="display: none;" role="status" aria-hidden="true">
+	
+                    <div id="overlay">
+                        <div id="modalprogress">
+                            <div>
+                                <p style="text-align: center;">
+                                    <img id="imgWaitIcon" src="Remuneracao_data/loading.gif" align="middle">
+                                </p>
+                                <p style="text-align: center;">
+                                    Carregando...
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                
+</div>
+            <div id="uppPanel">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div id="reportTool" class="reportTool">
+                            <table>
+                                <tbody><tr>
+                                    <td style="height: 28px;">
+                                        <input type="image" name="btnPrimeiro" id="btnPrimeiro" class="reportImage" src="Remuneracao_data/FirstHS.png">
+                                    </td>
+                                    <td style="height: 28px;">
+                                        <input type="image" name="btnAnterior" id="btnAnterior" class="reportImage" src="Remuneracao_data/PreviousHS.png">
+                                    </td>
+                                    <td style="height: 28px;">
+                                        <input name="txtPagina" type="text" value="4" maxlength="8" onchange="javascript:setTimeout('__doPostBack(\'txtPagina\',\'\')', 0)" onkeypress="if (WebForm_TextBoxKeyHandler(event) == false) return false;return isNumberKey(event)" id="txtPagina" size="3">
+                                    </td>
+                                    <td style="height: 28px;">
+                                        <span id="lblPagina">de 7</span>
+                                    </td>
+                                    <td style="height: 28px;">
+                                        <input type="image" name="btnProximo" id="btnProximo" class="reportImage" src="Remuneracao_data/NextHS.png">
+                                    </td>
+                                    <td style="height: 28px;">
+                                        <input type="image" name="btnUltimo" id="btnUltimo" class="reportImage" src="Remuneracao_data/LastHS.png">
+                                    </td>
+                                    <td>
+                                        <input type="image" name="btnExcel" id="btnExcel" title="Exportar para excel." class="reportImage" src="Remuneracao_data/excel.png">
+                                    </td>
+                                </tr>
+                            </tbody></table>
+                        </div>
+                    </div>
+                    <br>
+                    <div id="panel" style="height:380px;width:100%;overflow-y:scroll;">
+	
+                        <table cellspacing="0" cellpadding="0">
+                            <tbody>
+                                <tr>
+                                    <td class="reportHeader" style="width: 25%; word-wrap: break-word; height: 5.00mm;">
+                                        REMUNERAÇÃO - Mês de Referência 04 / 2022<br>
+                                        
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div>
+		<table rules="all" id="grid" style="width:100%;border-collapse:collapse;" cellspacing="0" border="1">
+			<tbody><tr class="gridHeader">
+				<th scope="col">NOME</th><th scope="col">ÓRGÃO</th><th scope="col">CARGO</th><th scope="col">REMUNERAÇÃO DO MÊS</th><th scope="col">FÉRIAS E 13º SALÁRIO</th><th scope="col">PAGAMENTOS EVENTUAIS</th><th scope="col">LICENÇA PRÊMIO INDENIZADA</th><th scope="col">ABONO PERMANÊNCIA &amp; OUTRAS INDENIZAÇÕES</th><th scope="col">REDUTOR SALARIAL</th><th scope="col">TOTAL LIQUÍDO (R$)</th>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">JORGE EDUARDO ALVES MORAIS</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">ANALISTA SOCIOCULTURAL</td><td class="gridItem" style="width:8%;" align="right">4.639,51</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">616,26</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">2.689,60</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">JORGE LUIZ LOPES</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">ANALISTA SOCIOCULTURAL</td><td class="gridItem" style="width:8%;" align="right">3.513,89</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">59,76</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">1.919,34</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">JOSE ABDERRAMAN DO R BARROS</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">AUXILIAR SERV.GERAIS</td><td class="gridItem" style="width:8%;" align="right">3.456,92</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">584,69</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">3.332,09</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">JOSE ANTONIO DE CARVALHO</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">ANALISTA SOCIOCULTURAL</td><td class="gridItem" style="width:8%;" align="right">5.867,45</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">739,85</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">4.998,49</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">JOSE AUGUSTO MACHADO</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">ANALISTA SOCIOCULTURAL</td><td class="gridItem" style="width:8%;" align="right">6.211,14</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">2.453,42</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">21.942,81</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">27.627,08</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">JOSE AUGUSTO PRANDO</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">EXECUTIVO PUBLICO</td><td class="gridItem" style="width:8%;" align="right">6.151,46</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">3.080,69</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">JOSE CARLOS C DE ALMEIDA</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">ANALISTA SOCIOCULTURAL</td><td class="gridItem" style="width:8%;" align="right">4.511,10</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">549,96</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">3.068,77</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">JOSE CARLOS NISTA MENDES</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">ANALISTA SOCIOCULTURAL</td><td class="gridItem" style="width:8%;" align="right">4.702,71</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">664,22</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">3.906,01</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">JOSE DOMINGOS F ANDRADE</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">DIRETOR TECNICO I</td><td class="gridItem" style="width:8%;" align="right">5.155,84</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">660,86</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">3.045,32</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">JOSE DOMINGOS NETO</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">ASSESSOR I</td><td class="gridItem" style="width:8%;" align="right">3.168,55</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">197,08</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">1.987,85</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">JOSE EDUARDO BATISTA</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">ANALISTA SOCIOCULTURAL</td><td class="gridItem" style="width:8%;" align="right">4.675,56</td><td class="gridItem" style="width:8%;" align="right">2.337,78</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">890,85</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">6.289,85</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">JOSE EMIDIO MENDES ABRAHAO</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">ANALISTA SOCIOCULTURAL</td><td class="gridItem" style="width:8%;" align="right">4.410,85</td><td class="gridItem" style="width:8%;" align="right">2.205,42</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">788,46</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">6.037,83</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">JOSE FERNANDO TREVIZANI</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">ANALISTA SOCIOCULTURAL</td><td class="gridItem" style="width:8%;" align="right">4.126,57</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">3.295,72</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">JOSE GERALDO KOOL ARTIOLI</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">ANALISTA SOCIOCULTURAL</td><td class="gridItem" style="width:8%;" align="right">4.763,65</td><td class="gridItem" style="width:8%;" align="right">58,35</td><td class="gridItem" style="width:8%;" align="right">517,78</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">86,04</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">4.297,81</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">JOSE LUIS BONAGURA ANDRADE</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">ANALISTA SOCIOCULTURAL</td><td class="gridItem" style="width:8%;" align="right">4.178,96</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">3.297,74</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">JOSE LUIZ GERMANO</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">ANALISTA SOCIOCULTURAL</td><td class="gridItem" style="width:8%;" align="right">3.513,89</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">-49,84</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">552,25</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">2.050,75</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">JOSE NUNES JUNIOR</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">ANALISTA SOCIOCULTURAL</td><td class="gridItem" style="width:8%;" align="right">4.197,86</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">137,52</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">2.446,09</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">JOSE ROBERTO ARAUJO</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">OFICIAL ADMINISTRATIVO</td><td class="gridItem" style="width:8%;" align="right">3.414,78</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">182,31</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">2.125,43</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">JOSE ROBERTO R BUONGERMINO</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">ANALISTA SOCIOCULTURAL</td><td class="gridItem" style="width:8%;" align="right">6.778,29</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">867,37</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">5.554,27</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">JOSE SANTANA</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">ANALISTA SOCIOCULTURAL</td><td class="gridItem" style="width:8%;" align="right">5.105,92</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">80,84</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">4.046,21</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">JUAN CARLOS V F J VILLANI</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">ASSESSOR TECNICO IV</td><td class="gridItem" style="width:8%;" align="right">5.075,61</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">82,66</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">4.057,80</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">JUDITH BENITES NONATO</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">ANALISTA SOCIOCULTURAL</td><td class="gridItem" style="width:8%;" align="right">3.572,55</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">115,64</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">2.079,18</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">JULIANA PINHEIRO SPIONI</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">ASSESSOR TEC. DE GABINETE III</td><td class="gridItem" style="width:8%;" align="right">5.582,24</td><td class="gridItem" style="width:8%;" align="right">930,37</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">52,26</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">5.264,39</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">JULIO CESAR BERTO</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">ANALISTA SOCIOCULTURAL</td><td class="gridItem" style="width:8%;" align="right">3.778,33</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">447,37</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">2.987,12</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">JULIO CESAR MALFI</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">ANALISTA SOCIOCULTURAL</td><td class="gridItem" style="width:8%;" align="right">3.599,95</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">2.035,35</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">JUREMA PISSARRA SOPRAN</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">AG.TEC. DE ASSIST. A SAUDE</td><td class="gridItem" style="width:8%;" align="right">3.797,33</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">556,59</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">3.534,23</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">JUSSARA LOURDES P VIEIRA</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">CHEFE I</td><td class="gridItem" style="width:8%;" align="right">2.243,05</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">509,66</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">1.633,01</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">LAERCIO RAIMUNDO DA SILVA</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">OFICIAL SOCIOCULTURAL</td><td class="gridItem" style="width:8%;" align="right">2.180,31</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">341,45</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">1.153,40</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">LARISSA CAROLINA DE JESUS</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">ASSESSOR DE GABINETE I</td><td class="gridItem" style="width:8%;" align="right">2.013,31</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">266,40</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">1.421,07</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">LEDA ZAMPESE ISIDIO</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">OFICIAL ADMINISTRATIVO</td><td class="gridItem" style="width:8%;" align="right">5.693,08</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">715,44</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">3.252,64</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">LELO FANTIN</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">ANALISTA SOCIOCULTURAL</td><td class="gridItem" style="width:8%;" align="right">3.361,07</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">391,21</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">3.061,63</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">LENILDA JOANA AGUIAR</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">OFICIAL ADMINISTRATIVO</td><td class="gridItem" style="width:8%;" align="right">2.342,65</td><td class="gridItem" style="width:8%;" align="right">1.171,32</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">246,64</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">2.766,33</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">LEONICE APARECIDA S DO CARMO</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">AUXILIAR SERV.GERAIS</td><td class="gridItem" style="width:8%;" align="right">1.797,49</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">261,75</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">1.319,53</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">LEONICE FAVERO</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">DIRETOR TECNICO I</td><td class="gridItem" style="width:8%;" align="right">6.906,20</td><td class="gridItem" style="width:8%;" align="right">-22,09</td><td class="gridItem" style="width:8%;" align="right">-667,98</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">4.652,72</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">LEONORA RIBEIRO DE LIMA</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">AUXILIAR SERV.GERAIS</td><td class="gridItem" style="width:8%;" align="right">3.722,80</td><td class="gridItem" style="width:8%;" align="right">620,46</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">551,72</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">4.085,18</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">LETICIA TATSCH</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">EXECUTIVO PUBLICO</td><td class="gridItem" style="width:8%;" align="right">5.795,61</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">39,46</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">4.454,78</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">LICIA MARIA DOS SANTOS</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">DIRETOR I</td><td class="gridItem" style="width:8%;" align="right">5.623,43</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">755,48</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">4.792,58</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">LIDIANA DA SILVA ALMEIDA</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">ASSESSOR DE GABINETE I</td><td class="gridItem" style="width:8%;" align="right">1.671,76</td><td class="gridItem" style="width:8%;" align="right">626,90</td><td class="gridItem" style="width:8%;" align="right">167,16</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">28,68</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">2.300,38</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">LIGIA MARIA GAMBINI</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">ANALISTA SOCIOCULTURAL</td><td class="gridItem" style="width:8%;" align="right">4.319,37</td><td class="gridItem" style="width:8%;" align="right">2.159,68</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">770,16</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">5.925,86</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">LOURENCO DE ALMEIDA PACHECO</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">ANALISTA SOCIOCULTURAL</td><td class="gridItem" style="width:8%;" align="right">4.022,36</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">560,29</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">3.699,53</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">LUANA XAVIER NEVES CONCEICAO</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">OFICIAL ADMINISTRATIVO</td><td class="gridItem" style="width:8%;" align="right">2.645,14</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">228,49</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">2.398,28</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">LUCIANA BIANCHI GUARIZI</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">ANALISTA SOCIOCULTURAL</td><td class="gridItem" style="width:8%;" align="right">3.741,40</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">2.953,36</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">LUCIANA DE ANDRADE GIOSTRI</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">ANALISTA SOCIOCULTURAL</td><td class="gridItem" style="width:8%;" align="right">3.647,86</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">168,32</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">3.047,86</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">LUCIANE DE SANTANA PIMENTEL</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">OFICIAL ADMINISTRATIVO</td><td class="gridItem" style="width:8%;" align="right">1.780,19</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">58,18</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">1.216,57</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">LUCIANO APARECIDO MARQUES</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">AUXILIAR SERV.GERAIS</td><td class="gridItem" style="width:8%;" align="right">2.014,48</td><td class="gridItem" style="width:8%;" align="right">631,49</td><td class="gridItem" style="width:8%;" align="right">1.894,48</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">223,06</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">3.431,06</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">LUCILENE APARECIDA S MORAES</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">AUXILIAR SERV.GERAIS</td><td class="gridItem" style="width:8%;" align="right">4.070,70</td><td class="gridItem" style="width:8%;" align="right">2.035,35</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">863,37</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">4.374,00</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">LUCILENE VIEIRA DA SILVA</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">OFICIAL ADMINISTRATIVO</td><td class="gridItem" style="width:8%;" align="right">5.602,18</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">737,38</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">3.336,54</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">LUIS ANTONIO G DA SILVA</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">ANALISTA SOCIOCULTURAL</td><td class="gridItem" style="width:8%;" align="right">3.675,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">2.932,22</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">LUIS ANTONIO OLIVEIRA</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">ANALISTA SOCIOCULTURAL</td><td class="gridItem" style="width:8%;" align="right">3.596,50</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">173,61</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">2.791,30</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">LUIS CARLOS DE MATTOS</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">ANALISTA SOCIOCULTURAL</td><td class="gridItem" style="width:8%;" align="right">4.743,31</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">85,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">2.635,38</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">LUIS CARLOS RIBEIRO MENDES</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">DIRETOR I</td><td class="gridItem" style="width:8%;" align="right">3.485,96</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">17,60</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">2.880,34</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">LUIZ ALBERTO SAVINI</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">ANALISTA SOCIOCULTURAL</td><td class="gridItem" style="width:8%;" align="right">3.721,97</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">603,36</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">3.522,83</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">LUIZ ANTONIO FRANCHIOSI</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">ANALISTA SOCIOCULTURAL</td><td class="gridItem" style="width:8%;" align="right">4.646,97</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">-80,61</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">659,76</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">3.695,79</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">LUIZ AUGUSTO DA SILVA GARCIA</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">ANALISTA SOCIOCULTURAL</td><td class="gridItem" style="width:8%;" align="right">5.564,48</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">4.175,17</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">LUIZ CARLOS CONTIERO</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">ANALISTA SOCIOCULTURAL</td><td class="gridItem" style="width:8%;" align="right">3.587,99</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">119,12</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">2.102,93</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">LUIZ CARLOS ROXO</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">ANALISTA SOCIOCULTURAL</td><td class="gridItem" style="width:8%;" align="right">4.591,05</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">561,15</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">4.039,64</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">LUIZ FERNANDO DA SILVA</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">ANALISTA SOCIOCULTURAL</td><td class="gridItem" style="width:8%;" align="right">3.623,94</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">597,72</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">3.456,47</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">MADALENA NIGRO AJALA LEAL</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">OFICIAL ADMINISTRATIVO</td><td class="gridItem" style="width:8%;" align="right">2.285,83</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">406,63</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">1.460,46</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">MARA ALICE DA CUNHA BARBOSA</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">ANALISTA SOCIOCULTURAL</td><td class="gridItem" style="width:8%;" align="right">5.647,84</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">709,10</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">3.799,18</td>
+			</tr><tr>
+				<td class="gridItem" style="width:20%;" align="left">MARCELO HAMANO TSUCHIYA</td><td class="gridItem" style="width:8%;" align="left">ESPORTES</td><td class="gridItem" style="width:18%;" align="left">EXECUTIVO PUBLICO</td><td class="gridItem" style="width:8%;" align="right">5.014,85</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:8%;" align="right">0,00</td><td class="gridItem" style="width:9%;" align="right">3.959,06</td>
+			</tr>
+		</tbody></table>
+	</div>
+                    
+</div>
+                    <input type="hidden" name="hdInicio" id="hdInicio" value="180">
+                    <input type="hidden" name="hdFinal" id="hdFinal" value="240">
+                    <input type="hidden" name="hdPaginaAtual" id="hdPaginaAtual" value="4">
+                    <input type="hidden" name="hdTotal" id="hdTotal" value="7">
+                </div>
+        </div>
+        <div>
+            <div id="masterdiv">
+                <table style="font-family: Arial;
+                    font-size: 9pt; font-style: normal; font-weight: normal; text-align: left; text-decoration: none;" class="spaceV" width="100%" cellspacing="5" cellpadding="0" border="0">
+                    <tbody><tr>
+                        <td scope="col">
+                            <span style="cursor: pointer;">
+                                <input type="image" name="imgExportTxt" id="imgExportTxt" class="imgRemu" alt="Série histórica de Remuneração de Servidores" src="Remuneracao_data/winrar.jpg"></span>
+                        </td>
+                        <td scope="col">
+                            Registro de todos os servidores públicos estaduais
+                        </td>
+                        <td scope="col">
+                            <span style="cursor: pointer;">
+                                <input type="image" name="ImageButton1" id="ImageButton1" class="imgRemu" alt="Série histórica de Remuneração de Servidores" src="Remuneracao_data/winrar.jpg"></span>
+                        </td>
+                        <td scope="col">
+                            Servidores Ativos
+                        </td>
+                        <td scope="col">
+                            <span style="cursor: pointer;">
+                                <input type="image" name="ImageButton2" id="ImageButton2" class="imgRemu" alt="Série histórica de Remuneração de Servidores" src="Remuneracao_data/winrar.jpg"></span>
+                        </td>
+                        <td scope="col">
+                            Servidores Aposentados
+                        </td>
+                        <td scope="col">
+                            <span style="cursor: pointer;">
+                                <input type="image" name="ImageButton3" id="ImageButton3" class="imgRemu" alt="Série histórica de Remuneração de Servidores" src="Remuneracao_data/winrar.jpg"></span>
+                        </td>
+                        <td scope="col">
+                            Servidores Pensionistas
+                        </td>
+                    </tr>
+                    <tr>
+                        <td scope="row" style="cursor: pointer;" onclick="SwitchMenu('sub1'); return false" valign="top">
+                            <img src="Remuneracao_data/winrar.jpg" alt="Série histórica de Remuneração de Servidores" width="36" height="36">
+                        </td>
+                        <td>
+                            Série histórica de Remuneração Mensal dos servidores públicos estaduais (arquivos
+                            compactados) <span class="submenu" id="sub1">
+                                <ul>
+					<li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Marco_2022.rar">Março/2022</a></li>
+					<li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Fevereiro_2022.rar">Fevereiro/2022</a></li>
+					<li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Janeiro_2022.rar">Janeiro/2022</a></li>
+					<li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Dezembro_2021.rar">Dezembro/2021</a></li>
+					<li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Novembro_2021.rar">Novembro/2021</a></li>
+					<li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Outubro_2021.rar">Outubro/2021</a></li>
+					<li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Setembro_2021.rar">Setembro/2021</a></li>
+					<li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Agosto_2021.rar">Agosto/2021</a></li>
+					<li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Julho_2021.rar">Julho/2021</a></li>
+					<li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Junho_2021.rar">Junho/2021</a></li>
+					<li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Maio_2021.rar">Maio/2021</a></li>
+					<li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Abril_2021.rar">Abril/2021</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Marco_2021.rar">Março/2021</a></li>
+				    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Fevereiro_2021.rar">Fevereiro/2021</a></li>
+				    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Janeiro_2021.rar">Janeiro/2021</a></li>
+				    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Dezembro_2020.rar">Dezembro/2020</a></li>	
+				    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Novembro_2020.rar">Novembro/2020</a></li>		
+				    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Outubro_2020.rar">Outubro/2020</a></li>
+				    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Setembro_2020.rar">Setembro/2020</a></li> 
+				    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Agosto_2020.rar">Agosto/2020</a></li>
+ 				    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Julho_2020.rar">Julho/2020</a></li>
+				    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Junho_2020.rar">Junho/2020</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Maio_2020.rar">Maio/2020</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Abril_2020.rar">Abril/2020</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Marco_2020.rar">Março/2020</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Fevereiro_2020.rar">Fevereiro/2020</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Janeiro_2020.rar">Janeiro/2020</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Dezembro_2019.rar">Dezembro/2019</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Novembro_2019.rar">Novembro/2019</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Outubro_2019.rar">Outubro/2019</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Setembro_2019.rar">Setembro/2019</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Agosto_2019.rar">Agosto/2019</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Julho_2019.rar">Julho/2019</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Junho_2019.rar">Junho/2019</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Maio_2019.rar">Maio/2019</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Abril_2019.rar">Abril/2019</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Marco_2019.rar">Março/2019</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Fevereiro_2019.rar">Fevereiro/2019</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Janeiro_2019.rar">Janeiro/2019</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Dezembro_2018.rar">Dezembro/2018</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Novembro_2018.rar">Novembro/2018</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Outubro_2018.rar">Outubro/2018</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Setembro_2018.rar">Setembro/2018</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Agosto_2018.rar">Agosto/2018</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Julho_2018.rar">Julho/2018</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Junho_2018.rar">Junho/2018</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Maio_2018.rar">Maio/2018</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Abril_2018.rar">Abril/2018</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Marco_2018.rar">Março/2018</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Fevereiro_2018.rar">Fevereiro/2018</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Janeiro_2018.rar">Janeiro/2018</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Dezembro_2017.rar">Dezembro/2017</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Novembro_2017.rar">Novembro/2017</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Outubro_2017.rar">Outubro/2017</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Setembro_2017.rar">Setembro/2017</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Agosto_2017.rar">Agosto/2017</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Julho_2017.rar">Julho/2017</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Junho_2017.rar">Junho/2017</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Maio_2017.rar">Maio/2017</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Abril_2017.rar">Abril/2017</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Marco_2017.rar">Março/2017</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Fevereiro_2017.rar">Fevereiro/2017</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Janeiro_2017.rar">Janeiro/2017</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Dezembro_2016.rar">Dezembro/2016</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Novembro_2016.rar">Novembro/2016</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Outubro_2016.rar">Outubro/2016</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Setembro_2016.rar">Setembro/2016</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Agosto_2016.rar">Agosto/2016</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Julho_2016.rar">Julho/2016</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Junho_2016.rar">Junho/2016</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Maio_2016.rar">Maio/2016</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Abril_2016.rar">Abril/2016</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Mar%C3%A7o_2016.rar">Março/2016</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Fevereiro_2016.rar">Fevereiro/2016</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Janeiro_2016.rar">Janeiro/2016</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Dezembro_2015.rar">Dezembro/2015</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Novembro_2015.rar">Novembro/2015</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Outubro_2015.rar">Outubro/2015</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Setembro_2015.rar">Setembro/2015</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Agosto_2015.rar">Agosto/2015</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Julho_2015.rar">Julho/2015</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Junho_2015.rar">Junho/2015</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Maio_2015.rar">Maio/2015</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Abril_2015.rar">Abril/2015</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Mar%C3%A7o_2015.rar">Março/2015</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Fevereiro_2015.rar">Fevereiro/2015</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Janeiro_2015.rar">Janeiro/2015</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Dezembro_2014.rar">Dezembro/2014</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Novembro_2014.rar">Novembro/2014</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Outubro_2014.rar">Outubro/2014</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Setembro_2014.rar">Setembro/2014</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Agosto_2014.rar">Agosto/2014</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Julho_2014.rar">Julho/2014</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Junho_2014.rar">Junho/2014</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Maio_2014.rar">Maio/2014</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Abril_2014.rar">Abril/2014</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Mar%C3%A7o_2014.rar">Março/2014</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Fevereiro_2014.rar">Fevereiro/2014</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Janeiro_2014.rar">Janeiro/2014</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Dezembro_2013.rar">Dezembro/2013</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Novembro_2013.rar">Novembro/2013</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Outubro_2013.rar">Outubro/2013</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Setembro_2013.rar">Setembro/2013</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Agosto_2013.rar">Agosto/2013</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Julho_2013.rar" target="_blank">Julho/2013</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Junho_2013.rar" target="_blank">Junho/2013</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Maio_2013.rar" target="_blank">Maio/2013</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Abril_2013.rar" target="_blank">Abril/2013</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Mar%C3%A7o_2013.rar" target="_blank">Março/2013</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Fevereiro_2013.rar" target="_blank">Fevereiro/2013</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Janeiro_2013.rar" target="_blank">Janeiro/2013</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Dezembro_2012.rar" target="_blank">Dezembro/2012</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Novembro_2012.rar" target="_blank">Novembro/2012</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Outubro_2012.rar" target="_blank">Outubro/2012</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Setembro_2012.rar" target="_blank">Setembro/2012</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Agosto_2012.rar" target="_blank">Agosto/2012</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Julho_2012.rar" target="_blank">Julho/2012</a></li>
+                                    <li><a href="http://www.transparencia.sp.gov.br/PortalTransparencia-Report/historico/remuneracao_Junho_2012.rar" target="_blank">Junho/2012</a></li>
+                                </ul>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody></table>
+            </div>
+        </div>
+    </div>
+    
+
+<script type="text/javascript">
+//<![CDATA[
+Sys.Application.add_init(function() {
+    $create(Sys.UI._UpdateProgress, {"associatedUpdatePanelId":null,"displayAfter":500,"dynamicLayout":true}, null, null, $get("prgLoadingStatus"));
+});
+//]]>
+</script>
+<span style="display: none !important;"><input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value=""></span><span style="display: none !important;"><input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value=""></span><span style="display: none !important;"><input type="hidden" name="__LASTFOCUS" id="__LASTFOCUS" value=""></span><span style="display: none !important;"><input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwULLTE4NjgwMjEwODMPZBYCAgMPZBYMAgUPEA8WBh4ORGF0YVZhbHVlRmllbGQFCE9SR0FPX0lEHg1EYXRhVGV4dEZpZWxkBQpPUkdBT19ERVNDHgtfIURhdGFCb3VuZGdkEBVRBVRPRE9THUFETUlOSVNUUkFDQU8gR0VSQUwgRE8gRVNUQURPHUFHLk0uVi5QQVIuTElULk5PUlRFIEFHRU1WQUxFHEFHLk1FVC5TT1JPQ0FCQSBBR0VNU09ST0NBQkEdQUcuUkVHLlNFUlYuUFVCLkVTVC5TUCBBUlNFU1AeQUcuUkVHLlNWLlAuREVMLlRSLkUuU1AgQVJURVNQHUFHRU5DSUEgTUVULkNBTVBJTkFTIEFHRU1DQU1QHkFHRU5DSUEgTUVUUk9QLkIuU0FOVElTVEEgQUdFTR5DLkUuRUQuVEVDLlBBVUxBIFNPVVpBLUNFRVRFUFMdQy5QLlRSRU5TIE1FVFJPUE9MSVRBTk9TLUNQVE0dQ0FJWEEgQkVORUZJQy5QT0xJQ0lBIE1JTElUQVIKQ0FTQSBDSVZJTB1DRVRFU0ItQ0lBLkFNQklFTlRBTCBFU1QuUy5QLh1DSUEuREVTLkhBQi5VUkIuRVNULlMuUC4tQ0RIVR5DSUEuUEFVTElTLlNFQ1VSSVRJWkFDQU8gQ1BTRUMaQ0lBLlBBVUxJU1RBIFBBUkNFUklBUyBDUFAeQ0lBLlBST0MuREFET1MgRVNULlMuUC1QUk9ERVNQHkNPTS5TQU4uQkFTLkVTVC5TLlBBVUxPIFNBQkVTUB1DT01QLk1FVFJPUE9MSVRBTk8gUy5QLi1NRVRSTx1DT01QQU5ISUEgRE9DQVMgU0FPIFNFQkFTVElBTwVEQUVTUB1ERVBBUlRBTS5FU1RSQURBUyBST0RBR0VNIERFUh5ERVBUTy4gRVNULiBUUkFOU0lUTyBERVRSQU4gU1AeREVQVE8uQUdVQVMgRU5FUi5FTEVUUklDQSBEQUVFHkRFU0VOVk9MVi5ST0RPVklBUklPIFMvQS1ERVJTQR5ERVNFTlZPTFZFIFNQIEFHLkZPTS5FLlMuUEFVTE8eRU1BRSBFTVAuTUVULkFHVUFTIEVORVJHSUEgUy9BHkVNUC5NRVRSLlRSLlVSQi5TUC5TL0EtRU1UVS1TUBpGQUMuTUVELlMuSi5SLlBSRVRPLUZBTUVSUBtGQUMuTUVESUNJTkEgTUFSSUxJQS1GQU1FTUEaRklURVNQLUpPU0UgR09NRVMgREEgU0lMVkEeRlVORC5BTVBBUk8gUEVTUS5FU1QuU1AtRkFQRVNQHkZVTkQuQ09OUy5QUi5GTE9SLkVTVC5TUCBGLkZMLhxGVU5ELk1FTU9SSUFMIEFNRVJJQ0EgTEFUSU5BHkZVTkQuUEUuQU5DSElFVEEtQy5QLlJBRElPIFRWLh1GVU5ELlBGLkRSLk0uUC5QSU1FTlRFTC1GVU5BUB5GVU5ELlBSRVYuQ09NUEwuRVNULlNQIFBSRVZDT00eRlVORC5QUk8tU0FOR1VFLUhFTU9DRU5UUk8gUy5QHEZVTkQuUkVNLlBPUC4iQy5ULkxJTUEiLUZVUlAeRlVORC5TSVNULkVTVC5BTkFMLkRBRE9TIFNFQURFHkZVTkQuVU4uVklSVFVBTCBFU1QuU1AgVU5JVkVTUBFGVU5EQUNBTyBDQVNBLVNQLhxGVU5EQUNBTyBERVNFTlYuRURVQ0FDQU8tRkRFHUZVTkRBQ0FPIE9OQ09DRU5UUk8gU0FPIFBBVUxPHkZVTkRBQ0FPIFBBUlFVRSBaT09MT0dJQ08gREUgUw9GVU5EQUNBTyBQUk9DT04WR0FCSU5FVEUgRE8gR09WRVJOQURPUhpILkMuRkFDLk1FRC5CT1RVQ0FUVS1IQ0ZNQh1IQyBGQUMgTUVESUNJTkEgUklCIFBSRVRPIFVTUBlIT1NQLkNMSU4uRkFDLk1FRC5NQVJJTElBHUhPU1AuQ0xJTi5GQUMuTUVELlVTUC1IQ0ZNVVNQHklOU1QgTUVEIFNPQyBDUklNSU5PIFNQLSBJTUVTQx5JTlNULkFTLk1FRC5TRVIuUFVCLkVTVCBJQU1TUEUeSU5TVC5QQUdUT1MuRVNQRUNJQUlTIFNQLUlQRVNQHklOU1QuUEVTT1MgTUVESUQuRS5TLlAtSVBFTS9TUB5JTlNULlBFU1EuVEVDTk9MT0dJQ0FTIEVTVC5TLlAdSlVOVEEgQ09NRVJDLkUuUy5QQVVMTy1KVUNFU1AZUE9MSUNJQSBNSUxJVEFSIFNBTyBQQVVMTxxQUk9DVVJBRE9SSUEgR0VSQUwgRE8gRVNUQURPHlNBTyBQQVVMTyBQUkVWSURFTkNJQSAgIFNQUFJFVh5TRUMuVFJBTlNQT1JURVMgTUVUUk9QT0xJVEFOT1MeU0VDUi5BR1JJQ1VMVFVSQSBBQkFTVEVDSU1FTlRPHlNFQ1IuQ1VMVFVSQSBFQ09OT01JQSBDUklBVElWQR5TRUNSLkRFU0VOVk9MVklNRU5UTyBFQ09OT01JQ08eU0VDUi5FU1QuRElSLlBFUy5DL0RFRklDSUVOQ0lBHFNFQ1JFVC4gRkFaRU5EQSBQTEFORUpBTUVOVE8eU0VDUkVULkFETUlOSVNUUi5QRU5JVEVOQ0lBUklBFlNFQ1JFVEFSSUEgREEgRURVQ0FDQU8XU0VDUkVUQVJJQSBEQSBIQUJJVEFDQU8TU0VDUkVUQVJJQSBEQSBTQVVERR1TRUNSRVRBUklBIERFIERFU0VOVk9MVklNRU5UTxZTRUNSRVRBUklBIERFIEVTUE9SVEVTFVNFQ1JFVEFSSUEgREUgR09WRVJOTxtTRUNSRVRBUklBIERFU0VOVi4gUkVHSU9OQUwdU0VDUkVUQVJJQSBJTkYuIE1FSU8gQU1CSUVOVEUeU0VDUkVUQVJJQSBKVVNUSUNBIEUgQ0lEQURBTklBHlNFQ1JFVEFSSUEgTE9HSVNULiBUUkFOU1BPUlRFUx1TRUNSRVRBUklBIE9SQ0FNRU5UTyBFIEdFU1RBTxxTRUNSRVRBUklBIFNFR1VSQU5DQSBQVUJMSUNBHFNFQ1JFVEFSSUEgVFVSSVNNTyBFIFZJQUdFTlMdU1VQRVJJTlQuQ09OVFIuRU5ERU1JQVMtU1VDRU4VUQItMQExATIBMwE0ATUBNgE3ATgBOQIxMAIxMQIxMgIxMwIxNAIxNQIxNgIxNwIxOAIxOQIyMAIyMQIyMgIyMwIyNAIyNQIyNgIyNwIyOAIyOQIzMAIzMQIzMgIzMwIzNAIzNQIzNgIzNwIzOAIzOQI0MAI0MQI0MgI0MwI0NAI0NQI0NgI0NwI0OAI0OQI1MAI1MQI1MgI1MwI1NAI1NQI1NgI1NwI1OAI1OQI2MAI2MQI2MgI2MwI2NAI2NQI2NgI2NwI2OAI2OQI3MAI3MQI3MgI3MwI3NAI3NQI3NgI3NwI3OAI3OQI4MBQrA1FnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2cWAQJHZAIHDxAPFgYfAAUIQ0FSR09fSUQfAQUKQ0FSR09fREVTQx8CZ2QQFR4FVE9ET1MaQUcuVEVDLiBERSBBU1NJU1QuIEEgU0FVREUYQU5BTElTVEEgIEFETUlOSVNUUkFUSVZPFkFOQUxJU1RBIFNPQ0lPQ1VMVFVSQUwWQVNTRVNTT1IgREUgR0FCSU5FVEUgSRdBU1NFU1NPUiBERSBHQUJJTkVURSBJSQpBU1NFU1NPUiBJHEFTU0VTU09SIFRFQy4gREUgR0FCSU5FVEUgSUkdQVNTRVNTT1IgVEVDLiBERSBHQUJJTkVURSBJSUkcQVNTRVNTT1IgVEVDLiBERSBHQUJJTkVURSBJVhNBU1NFU1NPUiBURUNOSUNPIElJFEFTU0VTU09SIFRFQ05JQ08gSUlJE0FTU0VTU09SIFRFQ05JQ08gSVYSQVNTRVNTT1IgVEVDTklDTyBWF0FVWElMSUFSIERFIExBQk9SQVRPUklPEUFVWElMSUFSIERFIFNBVURFFEFVWElMSUFSIFNFUlYuR0VSQUlTB0NIRUZFIEkIQ0hFRkUgSUkLQ09PUkRFTkFET1IJRElSRVRPUiBJCkRJUkVUT1IgSUkRRElSRVRPUiBURUNOSUNPIEkSRElSRVRPUiBURUNOSUNPIElJDUVOR0VOSEVJUk8gVkkRRVhFQ1VUSVZPIFBVQkxJQ08WT0ZJQ0lBTCBBRE1JTklTVFJBVElWTxNPRklDSUFMIE9QRVJBQ0lPTkFMFU9GSUNJQUwgU09DSU9DVUxUVVJBTBRTRUNSRVRBUklPIEVYRUNVVElWTxUeAi0xBDEzNjMDMTMwBDE0NzYDMjI2BDIxMDkDMjU1BDI3MTQDMjc2BDE1NjQEMTU4MwMzMTcEMjc2MQQxNjA5AzQyOAQyMzE1BDE3MzgEMjM3OQQyMzgxBDM5NTAEMzA3NgQyNTIwBDMxMDEENDA0NgM3MjgDNzY0BDQyNTQDODcyBDM1MjUEMzI2OBQrAx5nZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2cWAWZkAgkPEA8WBh8ABQtTSVRVQUNBT19JRB8BBQ1TSVRVQUNBT19ERVNDHwJnZBAVBAVUT0RPUwtBUE9TRU5UQURPUwZBVElWT1MMUEVOU0lPTklT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"></span><span style="display: none !important;"><input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="E42B1F40"></span><span style="display: none !important;"><input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="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"></span></form>
+
+
+<div id="lightbox" style="display:none;"><a href="#" class="lightbox-close lightbox-button"></a><div class="lightbox-nav" style="display: none;"><a href="#" class="lightbox-previous lightbox-button"></a><a href="#" class="lightbox-next lightbox-button"></a></div><div href="#" class="lightbox-caption"><p></p></div></div></body></html>

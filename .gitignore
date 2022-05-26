@@ -130,3 +130,6 @@ dmypy.json
 
 # Pycharm
 .idea/
+
+# Coisas do programa
+/resources/sp/secretaria_dos_esportes/result
