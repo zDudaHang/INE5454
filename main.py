@@ -28,7 +28,7 @@ if __name__ == '__main__':
     n_entradas = 1;
 
     # itera pelas paginas salvas em um diretorio qualquer
-    for page in range (1, len(os.listdir(BASE_SP_FILE_DIR+JOB_1)) + 1):
+    for page in range (1, len(os.listdir(BASE_SP_FILE_DIR+JOB_1))):
        # abre uma pagina qualquer
        with open(BASE_SP_FILE_DIR + JOB_1 + str(page) + FILE_EXTENSION, 'r') as fp:
             soup = BeautifulSoup(fp, 'html.parser')
