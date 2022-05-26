@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 BASE_SP_FILE_DIR = 'resources/sp/'
 JOB_1 = 'secretaria_dos_esportes/'
 FILE_EXTENSION = '.html'
-RESULT_FOLDER = 'result/'
+RESULT_FOLDER = 'results/'
 
 NOME = 'NOME'
 ORGAO = 'ORGAO'
@@ -28,7 +28,7 @@ if __name__ == '__main__':
     n_entradas = 1;
 
     # itera pelas paginas salvas em um diretorio qualquer
-    for page in range (1, len(os.listdir(BASE_SP_FILE_DIR+JOB_1))):
+    for page in range (1, len(os.listdir(BASE_SP_FILE_DIR+JOB_1)) + 1):
        # abre uma pagina qualquer
        with open(BASE_SP_FILE_DIR + JOB_1 + str(page) + FILE_EXTENSION, 'r') as fp:
             soup = BeautifulSoup(fp, 'html.parser')
@@ -55,7 +55,7 @@ if __name__ == '__main__':
                 print(i, '->', info)
 
     # escreve os dados serializados para um arquivo qualquer
-    filename = BASE_SP_FILE_DIR + JOB_1 + RESULT_FOLDER + 'data.json'
+    filename = BASE_SP_FILE_DIR + RESULT_FOLDER + JOB_1 + 'data.json'
     os.makedirs(os.path.dirname(filename), exist_ok=True)
     with open(filename, 'w') as outfile:
         json.dump(infos_salariais, outfile)
