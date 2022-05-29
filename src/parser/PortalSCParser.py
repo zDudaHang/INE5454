@@ -1,4 +1,3 @@
-import os
 from typing import Dict, List
 
 from src.constants.paths import *
@@ -10,18 +9,14 @@ from src.model.PortalTransparenciaEnum import PortalTransparenciaEnum
 from bs4 import BeautifulSoup
 from bs4.element import Tag
 
+from src.util import print_when_verbose_enabled
+
 
 class PortalSCParser(Parser):
-    def parse(self) -> List[Dict]:
+    def parse(self, soup: BeautifulSoup) -> List[Dict]:
         servidores: List[Dict] = []
-        path_to_job1 = os.path.join(RESOURCES_DIR, SC_RESOURCES_DIR, SC_JOB_1)
-        for page in range(1, len(os.listdir(path_to_job1)) + 1):
-            path_to_page = os.path.join(
-                path_to_job1, str(page) + FILE_EXTENSION)
-            with open(path_to_page, 'r') as fp:
-                soup = BeautifulSoup(fp, 'html.parser')
-                colunas = self.encontrar_colunas(soup)
-                servidores = self.encontrar_valores(colunas, soup, servidores)
+        colunas = self.encontrar_colunas(soup)
+        servidores = self.encontrar_valores(colunas, soup, servidores)
         return servidores
 
     def encontrar_colunas(self, soup: BeautifulSoup) -> List[str]:
@@ -50,4 +45,5 @@ class PortalSCParser(Parser):
                         if (isinstance(span, Tag)):
                             servidor[colunas[index_th]] = span.text
                 servidores.append(servidor)
+        print_when_verbose_enabled(servidores)
         return servidores

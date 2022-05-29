@@ -3,7 +3,7 @@ RESOURCES_DIR = 'resources/'
 RESULT_FILENAME = 'data.json'
 RESULT_FOLDER = 'results/'
 
-FILE_EXTENSION = '.html'
+HTML_EXTENSION = '.html'
 
 SP_RESOURCES_DIR = 'sp/'
 SP_JOB_1 = 'secretaria_dos_esportes/'
