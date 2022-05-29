@@ -134,4 +134,4 @@ dmypy.json
 .idea/
 
 # Coisas do programa
-/resources/sp/results/
+/resources/results/
