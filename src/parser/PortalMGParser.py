@@ -12,7 +12,7 @@ from bs4.element import Tag
 from src.util import print_when_verbose_enabled
 
 
-class PortalSCParser(Parser):
+class PortalMGParser(Parser):
     def parse(self, soup: BeautifulSoup) -> List[Dict]:
         servidores: List[Dict] = []
         colunas = self.encontrar_colunas(soup)
@@ -26,9 +26,7 @@ class PortalSCParser(Parser):
             ths = thead.find_all(TH)
             for th in ths:
                 if (isinstance(th, Tag)):
-                    span = th.find(SPAN)
-                if (isinstance(span, Tag)):
-                    colunas.append(span.text.strip())
+                    colunas.append(th.text.strip())
         print_when_verbose_enabled(colunas)
         return colunas
 
@@ -39,12 +37,10 @@ class PortalSCParser(Parser):
             if (isinstance(tr, Tag)):
                 tds = tr.find_all(TD)
                 servidor = {
-                    PORTAL_DICT_KEY: PortalTransparenciaEnum.SC}
+                    PORTAL_DICT_KEY: PortalTransparenciaEnum.MG}
                 for index_th, td in enumerate(tds):
                     if (isinstance(td, Tag)):
-                        span = td.find(SPAN)
-                        if (isinstance(span, Tag)):
-                            servidor[colunas[index_th]] = span.text.strip()
+                        servidor[colunas[index_th]] = td.text.strip()
                 servidores.append(servidor)
         print_when_verbose_enabled(servidores)
         return servidores

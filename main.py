@@ -8,6 +8,7 @@ from src.constants.html_tags import *
 
 from src.parser.PortalSCParser import PortalSCParser
 from src.parser.PortalSPParser import PortalSPParser
+from src.parser.PortalMGParser import PortalMGParser
 
 from src.util import print_when_debug_enabled
 
@@ -16,14 +17,16 @@ if __name__ == '__main__':
 
     scParser = PortalSCParser(os.path.join(RESOURCES_DIR, SC_RESOURCES_DIR))
     spParser = PortalSPParser(os.path.join(RESOURCES_DIR, SP_RESOURCES_DIR))
+    mgParser = PortalMGParser(os.path.join(RESOURCES_DIR, MG_RESOURCES_DIR))
 
     servidoresSC = scParser.parse_resources()
     servidoresSP = spParser.parse_resources()
+    servidoresMG = mgParser.parse_resources()
 
-    servidores = servidoresSC + servidoresSP
+    servidores = servidoresSC + servidoresSP + servidoresMG
 
     print_when_debug_enabled(
-        f'Quantidade de servidores encontrados: {servidores.__len__()}')
+        f'Quantidade de registros encontrados: {servidores.__len__()}')
 
     result_path = os.path.join(
         RESOURCES_DIR, RESULT_FOLDER, RESULT_FILENAME)

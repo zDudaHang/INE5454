@@ -6,7 +6,5 @@ RESULT_FOLDER = 'results/'
 HTML_EXTENSION = '.html'
 
 SP_RESOURCES_DIR = 'sp/'
-SP_JOB_1 = 'secretaria_dos_esportes/'
-
 SC_RESOURCES_DIR = 'sc/'
-SC_JOB_1 = 'professores_universitarios/'
+MG_RESOURCES_DIR = 'mg/'
