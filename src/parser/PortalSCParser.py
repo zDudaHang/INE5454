@@ -9,7 +9,7 @@ from src.model.PortalTransparenciaEnum import PortalTransparenciaEnum
 from bs4 import BeautifulSoup
 from bs4.element import Tag
 
-from src.util import print_when_verbose_enabled
+from src.util import print_when_verbose_enabled, clean_text
 
 
 class PortalSCParser(Parser):
@@ -28,7 +28,7 @@ class PortalSCParser(Parser):
                 if (isinstance(th, Tag)):
                     span = th.find(SPAN)
                 if (isinstance(span, Tag)):
-                    colunas.append(span.text.strip())
+                    colunas.append(clean_text(span.text))
         print_when_verbose_enabled(colunas)
         return colunas
 
@@ -44,7 +44,7 @@ class PortalSCParser(Parser):
                     if (isinstance(td, Tag)):
                         span = td.find(SPAN)
                         if (isinstance(span, Tag)):
-                            servidor[colunas[index_th]] = span.text.strip()
+                            servidor[colunas[index_th]] = clean_text(span.text)
                 servidores.append(servidor)
         print_when_verbose_enabled(servidores)
         return servidores

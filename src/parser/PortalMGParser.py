@@ -9,7 +9,7 @@ from src.model.PortalTransparenciaEnum import PortalTransparenciaEnum
 from bs4 import BeautifulSoup
 from bs4.element import Tag
 
-from src.util import print_when_verbose_enabled
+from src.util import print_when_verbose_enabled, clean_text
 
 
 class PortalMGParser(Parser):
@@ -26,7 +26,7 @@ class PortalMGParser(Parser):
             ths = thead.find_all(TH)
             for th in ths:
                 if (isinstance(th, Tag)):
-                    colunas.append(th.text.strip())
+                    colunas.append(clean_text(th.text))
         print_when_verbose_enabled(colunas)
         return colunas
 
@@ -40,7 +40,7 @@ class PortalMGParser(Parser):
                     PORTAL_DICT_KEY: PortalTransparenciaEnum.MG}
                 for index_th, td in enumerate(tds):
                     if (isinstance(td, Tag)):
-                        servidor[colunas[index_th]] = td.text.strip()
+                        servidor[colunas[index_th]] = clean_text(td.text)
                 servidores.append(servidor)
         print_when_verbose_enabled(servidores)
         return servidores

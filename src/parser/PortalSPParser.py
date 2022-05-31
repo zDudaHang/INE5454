@@ -6,7 +6,7 @@ from src.constants.html_tags import *
 from src.constants.portal_sp import *
 from src.parser.Parser import Parser
 from src.model.PortalTransparenciaEnum import PortalTransparenciaEnum
-from src.util import print_when_verbose_enabled
+from src.util import print_when_verbose_enabled, clean_text
 
 from bs4 import BeautifulSoup
 from bs4.element import Tag
@@ -26,7 +26,7 @@ class PortalSPParser(Parser):
                     PORTAL_DICT_KEY: PortalTransparenciaEnum.SP}
                 for index, td in enumerate(tds):
                     if isinstance(td, Tag):
-                        servidor[NOME_CAMPOS[index]] = td.text.strip()
+                        servidor[NOME_CAMPOS[index]] = clean_text(td.text)
                 servidores.append(servidor)
         print_when_verbose_enabled(servidores)
         return servidores
