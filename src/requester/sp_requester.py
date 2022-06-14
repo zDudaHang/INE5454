@@ -5,6 +5,10 @@ from bs4 import BeautifulSoup
 from src.constants.html_tags import *
 from src.requester.requester import Requester
 
+TODOS_ORGAOS = -1
+TODOS_CARGOS = -1
+TODAS_SITUACOES = -1
+
 
 class SpRequester(Requester):
     URL = 'http://www.transparencia.sp.gov.br/PortalTransparencia-Report/Remuneracao.aspx'
@@ -14,7 +18,8 @@ class SpRequester(Requester):
     started = False
 
     test = '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'
-    def __init__(self, orgao: int = -1, cargo: int = -1, situacao: int = -1):
+
+    def __init__(self, orgao: int = TODOS_ORGAOS, cargo: int = TODOS_CARGOS, situacao: int = TODAS_SITUACOES):
         self.orgao = orgao
         self.cargo = cargo
         self.situacao = situacao
@@ -32,12 +37,18 @@ class SpRequester(Requester):
     def get_next(self) -> None:
         self.get_html()
         bsoup = BeautifulSoup(self.page, 'html.parser')
-        self.hdInicio = int(bsoup.find(INPUT, attrs={'id': "hdInicio"}).get('value'))
-        self.hdFinal = int(bsoup.find(INPUT, attrs={'id': "hdFinal"}).get('value'))
-        self.hdPaginalAtual = int(bsoup.find(INPUT, attrs={'id': "hdPaginaAtual"}).get('value'))
-        self.hdTotal = int(bsoup.find(INPUT, attrs={'id': "hdTotal"}).get('value'))
-        self.VIEWSTATE = re.search(r'\|__VIEWSTATE\|(.*?)\|', self.page).group(1)
-        self.EVENTVALIDATION = re.search(r'\|__EVENTVALIDATION\|(.*?)\|', self.page).group(1)
+        self.hdInicio = int(bsoup.find(
+            INPUT, attrs={'id': "hdInicio"}).get('value'))
+        self.hdFinal = int(bsoup.find(
+            INPUT, attrs={'id': "hdFinal"}).get('value'))
+        self.hdPaginalAtual = int(bsoup.find(
+            INPUT, attrs={'id': "hdPaginaAtual"}).get('value'))
+        self.hdTotal = int(bsoup.find(
+            INPUT, attrs={'id': "hdTotal"}).get('value'))
+        self.VIEWSTATE = re.search(
+            r'\|__VIEWSTATE\|(.*?)\|', self.page).group(1)
+        self.EVENTVALIDATION = re.search(
+            r'\|__EVENTVALIDATION\|(.*?)\|', self.page).group(1)
         self.txtPagina += 1
 
     def get_page(self) -> str:
@@ -68,9 +79,12 @@ class SpRequester(Requester):
             parameters.update({'txtPagina': self.txtPagina})
         else:
             parameters.update({'btnExibirRelatorio': 'Pesquisar'})
-        headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:101.0) Gecko/20100101 Firefox/101.0'}
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:101.0) Gecko/20100101 Firefox/101.0'}
         r = requests.post(self.URL, data=parameters, headers=headers)
         self.page = r.text
+        with open('teste.html', 'w', encoding='utf-8') as outfile:
+            outfile.write(f'pagAtual={self.hdPaginalAtual}\n{self.page}\n\n')
 
     def has_next(self) -> bool:
         return self.hdPaginalAtual != self.hdTotal
