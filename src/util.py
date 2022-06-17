@@ -30,3 +30,7 @@ def print_info_message(text: str) -> None:
 
 def print_success_message(text: str) -> None:
     print(f"[{colored('SUCESSO', 'green')}] {text}")
+
+
+def print_error_message(text: str) -> None:
+    print(f"[{colored('ERRO', 'red')}] {text}")
