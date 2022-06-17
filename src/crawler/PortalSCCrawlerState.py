@@ -1,5 +1,6 @@
 
 from typing import List
+from src.util import print_info_message
 
 
 class PortalSCCrawlerState():
@@ -20,3 +21,7 @@ class PortalSCCrawlerState():
         Página atual / Total de páginas: {self.actual_processing_situacao_page}/{self.total_of_pages_processing_situacao}
         Situações completamente processadas: {self.full_extracted_situacoes}
         """
+
+    def print_actual_state(self):
+        print_info_message(
+            f'Extração (páginas): {self.actual_processing_situacao_page}/{self.total_of_pages_processing_situacao}')
