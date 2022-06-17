@@ -29,21 +29,23 @@ class PortalSCParser(Parser):
                     span = th.find(SPAN)
                 if (isinstance(span, Tag)):
                     colunas.append(span.text.strip())
+        print_when_verbose_enabled(f'Colunas={colunas}')
         return colunas
 
     def encontrar_valores(self, colunas: List[str], soup: BeautifulSoup, servidores: List[Dict]) -> List[Dict]:
         tbody = soup.find(TBODY)
-        trs = tbody.find_all(TR)
-        for tr in trs:
-            if (isinstance(tr, Tag)):
-                tds = tr.find_all(TD)
-                servidor = {
-                    PORTAL_DICT_KEY: PortalTransparenciaEnum.SC}
-                for index_th, td in enumerate(tds):
-                    if (isinstance(td, Tag)):
-                        span = td.find(SPAN)
-                        if (isinstance(span, Tag)):
-                            servidor[colunas[index_th]] = span.text
-                servidores.append(servidor)
-        print_when_verbose_enabled(servidores)
+        if tbody != None:
+            trs = tbody.find_all(TR)
+            for tr in trs:
+                if (isinstance(tr, Tag)):
+                    tds = tr.find_all(TD)
+                    servidor = {
+                        PORTAL_DICT_KEY: PortalTransparenciaEnum.SC}
+                    for index_th, td in enumerate(tds):
+                        if (isinstance(td, Tag)):
+                            span = td.find(SPAN)
+                            if (isinstance(span, Tag)):
+                                servidor[colunas[index_th]] = span.text
+                    servidores.append(servidor)
+            print_when_verbose_enabled(f'servidores encontrados={servidores}')
         return servidores

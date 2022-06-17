@@ -1,11 +1,11 @@
 import os
+from termcolor import colored
 
 from src.model.EnvironmentEnum import EnvironmentEnum
-from src.constants.paths import HTML_EXTENSION
 
 
 def get_bool_env_variable(env_variable_name: str) -> bool:
-    variable = os.environ.get(env_variable_name, False)
+    variable = os.environ.get(env_variable_name, 'False')
     if variable.casefold() == "true":
         return True
     else:
@@ -15,19 +15,18 @@ def get_bool_env_variable(env_variable_name: str) -> bool:
 def print_when_debug_enabled(text: str) -> None:
     isDebugEnabled = get_bool_env_variable(EnvironmentEnum.DEBUG)
     if isDebugEnabled:
-        print(f'[DEBUG] {text}')
+        print(f"[{colored('DEBUG', 'yellow')}] {text}")
 
 
 def print_when_verbose_enabled(text: str) -> None:
     isVerboseEnabled = get_bool_env_variable(EnvironmentEnum.VERBOSE)
     if isVerboseEnabled:
-        print(f'[DEBUG] {text}')
+        print(f"[{colored('VERBOSE', 'cyan')}] {text}")
 
 
-def get_file_extension(filePath: str) -> str:
-    _, fileExtension = os.path.splitext(filePath)
-    return fileExtension
+def print_info_message(text: str) -> None:
+    print(f"[{colored('INFO', 'magenta')}] {text}")
 
 
-def is_html_file(filePath: str) -> bool:
-    return get_file_extension(filePath) == HTML_EXTENSION
+def print_success_message(text: str) -> None:
+    print(f"[{colored('SUCESSO', 'green')}] {text}")
