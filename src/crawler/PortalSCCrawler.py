@@ -17,7 +17,7 @@ from src.constants.portal_sc import TODAS_AS_SITUACOES
 from src.constants.paths import *
 from src.parser.PortalSCParser import PortalSCParser
 from src.model.EnvironmentEnum import EnvironmentEnum
-from src.util import print_success_message, print_when_debug_enabled, print_error_message, print_info_message
+from src.util import print_success_message, print_when_debug_enabled, print_error_message, print_info_message, convert_BR_number_to_EN_number
 from src.crawler.PortalSCCrawlerState import PortalSCCrawlerState
 
 
@@ -98,8 +98,6 @@ class PortalSCCrawler():
         self.state.print_actual_state()
 
     def iterate_over_pages(self, num_ultima_pagina: int) -> List[Dict]:
-        servidores_paginas = []
-
         for page_number in range(2, num_ultima_pagina + 1):
             self.state.actual_processing_situacao_page = page_number
 
@@ -114,13 +112,11 @@ class PortalSCCrawler():
 
             soup = BeautifulSoup(self.driver.page_source, 'html.parser')
             servidores_pagina = self.parser.parse(soup)
-            servidores_paginas.extend(servidores_pagina)
+            self.servidores_extraidos.extend(servidores_pagina)
 
             print_when_debug_enabled(
                 f'Página: {page_number}. Quantidade servidores encontrados: {servidores_pagina.__len__()}')
             self.state.print_actual_state()
-
-        self.servidores_extraidos.extend(servidores_paginas)
 
     def export_to_json(self):
         quantidade_servidores_extraidos = self.servidores_extraidos.__len__()
@@ -142,10 +138,15 @@ class PortalSCCrawler():
     def extract_data_to_validate(self):
         print_info_message('Extraindo dados para validação...')
 
-        self.total_valor_bruto = self.driver.find_element(
+        total_valor_bruto = self.driver.find_element(
             By.CSS_SELECTOR, "div[class='conteudo-bloco-filtro-resultados-valor'] > div").text
-        self.total_servidores = self.driver.find_element(
+        total_servidores = self.driver.find_element(
             By.CSS_SELECTOR, "div[class='conteudo-bloco-filtro-resultados-valor valor-pessoas'] > div").text
+
+        self.total_valor_bruto = float(convert_BR_number_to_EN_number(
+            total_valor_bruto))
+        self.total_servidores = int(convert_BR_number_to_EN_number(
+            total_servidores))
 
         print_when_debug_enabled(
             f'Valor bruto total = {self.total_valor_bruto}, # Servidores = {self.total_servidores}')
@@ -159,7 +160,7 @@ class PortalSCCrawler():
                 f"Quantida de servidores: OK [{self.total_servidores}]")
 
             total_bruto = reduce(
-                lambda a, b: a + b, self.servidores_extraidos, 0).__str__()
+                lambda a, b: a + b, self.servidores_extraidos, 0.0)
             if self.total_valor_bruto == total_bruto:
                 print_success_message(
                     f"Valor bruto total: OK [{self.total_valor_bruto}]")

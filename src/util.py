@@ -12,6 +12,11 @@ def get_bool_env_variable(env_variable_name: str) -> bool:
         return False
 
 
+def convert_BR_number_to_EN_number(text: str) -> str:
+    text_without_period = text.replace('.', '')
+    return text_without_period.replace(',', '.')
+
+
 def print_when_debug_enabled(text: str) -> None:
     isDebugEnabled = get_bool_env_variable(EnvironmentEnum.DEBUG)
     if isDebugEnabled:
