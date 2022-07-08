@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 
 class Requester(ABC):
     URL: str = ''
-    HEADERS: dict = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:101.0) Gecko/20100101 Firefox/101.0'}
+    HEADERS: dict = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0'}
     PAGE: str = ''
     VIEWSTATE: str = ''
     STARTED: bool = False
