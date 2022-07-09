@@ -17,7 +17,7 @@ if __name__ == '__main__':
     load_dotenv('/home/bridge/INE5454/.env')
 
     crawler = PortalSCCrawler(URL_PORTAL_SC)
-    crawler.crawl()
+    servidores = crawler.crawl()
     # print(servidores)
 
     # spParser = PortalSPParser(os.path.join(RESOURCES_DIR, SP_RESOURCES_DIR))

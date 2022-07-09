@@ -1,6 +1,5 @@
 from functools import reduce
 from typing import Dict, List
-from json import dump
 import os
 import time
 
@@ -63,16 +62,15 @@ class PortalSCCrawler():
                     self.extract_by_situacao()
                     self.state.full_extracted_situacoes.append(option_text)
 
-                    if not self.validate():
+                    if not self.isValid():
                         break
-
         except Exception as e:
             print_error_message('Um erro aconteceu. Estado do Crawler:')
             print(self.state.__str__())
             print(f'Mensagem do erro: {e.__str__()}')
         finally:
             self.driver.quit()
-            self.export_to_json()
+            return self.servidores_extraidos
 
     def extract_by_situacao(self):
         num_ultima_pagina = 1
@@ -118,23 +116,6 @@ class PortalSCCrawler():
                 f'Página: {page_number}. Quantidade servidores encontrados: {servidores_pagina.__len__()}')
             self.state.print_actual_state()
 
-    def export_to_json(self):
-        quantidade_servidores_extraidos = self.servidores_extraidos.__len__()
-        if quantidade_servidores_extraidos > 0:
-            print_info_message(
-                f'Exportando {quantidade_servidores_extraidos} servidores...')
-
-            result_path = os.path.join(RESULT_FOLDER, 'SC/', RESULT_FILENAME)
-            os.makedirs(os.path.dirname(result_path), exist_ok=True)
-
-            with open(result_path, 'w', encoding='utf-8') as outfile:
-                dump(self.servidores_extraidos, outfile,
-                     indent=4, ensure_ascii=False)
-                print_success_message(
-                    f'Os dados processados se encontram no arquivo {result_path}')
-        else:
-            print_info_message('Ops ! Nenhum servidor foi extraído :(')
-
     def extract_data_to_validate(self):
         print_info_message('Extraindo dados para validação...')
 
@@ -151,7 +132,7 @@ class PortalSCCrawler():
         print_when_debug_enabled(
             f'Valor bruto total = {self.total_valor_bruto}, # Servidores = {self.total_servidores}')
 
-    def validate(self) -> bool:
+    def isValid(self) -> bool:
         print_info_message("Validando os dados extraídos...")
 
         quantidade_servidores_extraidos = self.servidores_extraidos.__len__()
