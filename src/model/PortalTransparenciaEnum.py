@@ -5,4 +5,5 @@ class PortalTransparenciaEnum(str, Enum):
     SC = 'SC',
     SP = 'SP',
     MG = 'MG',
-    PR = 'PR'
+    PR = 'PR',
+    SE = 'SE'

@@ -9,10 +9,15 @@ from src.model.PortalTransparenciaEnum import PortalTransparenciaEnum
 from bs4 import BeautifulSoup
 from bs4.element import Tag
 
+from src.requester.requester import Requester
 from src.util import print_when_verbose_enabled, clean_text
 
 
 class PortalSCParser(Parser):
+    def parse_with_requester(self, requester: Requester) -> dict:
+        # Esse parser não utiliza requesters para obter os dados do portal
+        pass
+
     def parse(self, soup: BeautifulSoup) -> List[Dict]:
         servidores: List[Dict] = []
         colunas = self.encontrar_colunas(soup)

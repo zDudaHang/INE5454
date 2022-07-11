@@ -26,7 +26,7 @@ class PortalSPParser(Parser):
                     PORTAL_DICT_KEY: PortalTransparenciaEnum.SP}
                 for index, td in enumerate(tds):
                     if isinstance(td, Tag):
-                        servidor[NOME_CAMPOS[index]] = clean_text(td.text)
+                        servidor[NOME_CAMPOS_SP[index]] = clean_text(td.text)
                 servidores.append(servidor)
         print_when_verbose_enabled(servidores)
         return servidores

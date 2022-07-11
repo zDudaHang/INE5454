@@ -1,6 +1,8 @@
 import os
 from typing import Dict, List
 from abc import ABC, abstractmethod
+
+from src.requester.requester import Requester
 from src.util import print_when_debug_enabled, is_html_file
 from bs4 import BeautifulSoup
 
@@ -11,6 +13,10 @@ class Parser(ABC):
 
     @abstractmethod
     def parse(self) -> List[Dict]:
+        pass
+
+    @abstractmethod
+    def parse_with_requester(self, requester: Requester) -> dict:
         pass
 
     def parse_resources(self) -> List[Dict]:

@@ -1,0 +1,15 @@
+from src.constants.common import *
+
+LOTACAO = 'LOTACAO'
+ADMISSAO = 'ADMISSAO'
+CARGA_HORARIA = 'CARGA HORARIA'
+
+NOME_CAMPOS_SE = [
+    NOME,
+    CARGO,
+    LOTACAO,
+    ORGAO,
+    ADMISSAO,
+    CARGA_HORARIA,
+    REMUNERACAO_MES
+]
