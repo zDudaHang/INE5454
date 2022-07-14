@@ -7,5 +7,3 @@ HTML_EXTENSION = '.html'
 
 SP_RESOURCES_DIR = 'sp/'
 SC_RESOURCES_DIR = 'sc/'
-MG_RESOURCES_DIR = 'mg/'
-PR_RESOURCES_DIR = 'pr/'
