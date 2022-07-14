@@ -10,6 +10,13 @@ from src.util import clean_text
 from bs4 import BeautifulSoup
 from bs4.element import Tag
 
+# Exemplo de uso
+# se_requester = SeRequester()
+# parser = PortalSEParser('')
+# results = parser.parse_with_requester(se_requester)
+# for result in results:
+#   print(result)
+
 
 class PortalSEParser(Parser):
 
