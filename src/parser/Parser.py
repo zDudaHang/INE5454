@@ -12,7 +12,7 @@ class Parser(ABC):
         self.resources_path = resources_path
 
     @abstractmethod
-    def parse(self) -> List[Dict]:
+    def parse(self, soup: BeautifulSoup) -> List[Dict]:
         pass
 
     @abstractmethod

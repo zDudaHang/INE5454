@@ -21,6 +21,7 @@ class SpRequester(Requester):
         self.hdPaginalAtual = 0
         self.hdTotal = -1
         self.txtPagina = 0
+        self.resultHasOnlyOnePage = False
         # inicializa o requester
         self.get_next()
         self.PAGE_SCRIPT_MANAGER = 'uppPanel|btnProximo'
@@ -36,6 +37,8 @@ class SpRequester(Requester):
         self.VIEWSTATE = re.search(r'\|__VIEWSTATE\|(.*?)\|', self.PAGE).group(1)
         self.EVENTVALIDATION = re.search(r'\|__EVENTVALIDATION\|(.*?)\|', self.PAGE).group(1)
         self.txtPagina += 1
+        if self.hdTotal == self.hdTotal and not self.STARTED:
+            self.resultHasOnlyOnePage = True
         return self.PAGE
 
     def get_html(self) -> None:
@@ -67,4 +70,7 @@ class SpRequester(Requester):
         self.PAGE = r.text
 
     def has_next(self) -> bool:
+        if self.resultHasOnlyOnePage:
+            self.resultHasOnlyOnePage = False
+            return True
         return self.hdPaginalAtual != self.hdTotal
