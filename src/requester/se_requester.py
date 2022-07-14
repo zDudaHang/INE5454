@@ -1,4 +1,5 @@
 import re
+from re import Match
 
 import requests
 
@@ -12,6 +13,10 @@ class SeRequester(Requester):
     REGEX_ACHAR_VIEWSTATE_INICIAL = r'id="j_id1:javax.faces.ViewState:0" value="(.*?)"'
     REGEX_ACHAR_VIEWSTATE_NOVA = r'id="j_id1:javax.faces.ViewState:0"><!\[CDATA\[(.*?)]]'
     REGEX_ACHAR_JSESSION = r'jsessionid=(.*?)\?ln'
+    REGEX_TABLE_PAGES = r'<table role="grid">(.*?)</table>'
+    REGEX_TABLE_LAST_PAGE = r'<update id="frmPrincipal:Tabela"><!\[CDATA\[(.*?)]]></update>'
+    TABLE_HEADER = r'<table role="grid">'
+    TABLE_FOOTER = r'</table>'
 
     def __init__(self, orgao: str = '4'):
         self.orgao = orgao
@@ -26,7 +31,7 @@ class SeRequester(Requester):
         self.VIEWSTATE = re.search(self.REGEX_ACHAR_VIEWSTATE_INICIAL, PAGE).group(1)
         self.jsessionid = re.search(self.REGEX_ACHAR_JSESSION, PAGE).group(1)
 
-    def get_next(self):
+    def get_next(self) -> (str, bool):
         self.get_html()
 
         self.VIEWSTATE = re.search(self.REGEX_ACHAR_VIEWSTATE_NOVA, self.PAGE).group(1)
@@ -34,7 +39,17 @@ class SeRequester(Requester):
             total_servidores = re.search(self.REGEX_ACHAR_TOTAL_SERVIDORES, self.PAGE).group(1)
             self.total_servidores = int(total_servidores)
             self.STARTED = True
-        return self.PAGE
+        first_page: bool = False
+        try:
+            table_content = re.search(self.REGEX_TABLE_PAGES, self.PAGE).group(1)
+            first_page = True
+        except AttributeError:
+            # ocorre quando o formato de resposta do servidor muda
+            table_content = re.search(self.REGEX_TABLE_LAST_PAGE, self.PAGE).group(1)
+        except:
+            print('Houve algum tipo de erro na extração dos dados do html')
+            exit(1)
+        return self.TABLE_HEADER + table_content + self.TABLE_FOOTER, first_page
 
     def get_html(self) -> None:
         cookies = {
@@ -48,7 +63,7 @@ class SeRequester(Requester):
                     'javax.faces.source': 'frmPrincipal:Tabela',
                     'javax.faces.partial.execute': 'frmPrincipal:Tabela',
                     'javax.faces.partial.render': 'frmPrincipal:Tabela',
-                    'frmPrincipal:Tabela_pagination':    "true",
+                    'frmPrincipal:Tabela_pagination': "true",
                     'frmPrincipal:Tabela_first': self.servidores_ja_vistos,
                     'frmPrincipal:Tabela_rows': "50",
                     'frmPrincipal:Tabela_skipChildren': "true",
@@ -71,8 +86,8 @@ class SeRequester(Requester):
                     'javax.faces.source': 'frmPrincipal:botaoPesquisar',
                     'javax.faces.partial.execute': '@all',
                     'javax.faces.partial.render': 'frmPrincipal:Tabela',
-                    'frmPrincipal:botaoPesquisar':	'frmPrincipal:botaoPesquisar',
-                    'frmPrincipal':	"frmPrincipal",
+                    'frmPrincipal:botaoPesquisar': 'frmPrincipal:botaoPesquisar',
+                    'frmPrincipal': "frmPrincipal",
                     'frmPrincipal:j_idt135': "orgao",
                     'frmPrincipal:ano_focus': "",
                     'frmPrincipal:ano_input': "2022",
