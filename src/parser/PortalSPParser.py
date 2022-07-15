@@ -19,8 +19,9 @@ from bs4.element import Tag
 
 
 class PortalSPParser(Parser):
+    ATTRS_TO_GET = [NOME, CARGO, ORGAO, REMUNERACAO_MES]
 
-    def parse_with_requester(self, requester: SpRequester) -> List[dict]:
+    def parse_with_requester(self, requester: SpRequester) -> list[dict]:
         servidores: List[Dict] = list()
         while requester.has_next():
             page = requester.get_next()
@@ -29,7 +30,7 @@ class PortalSPParser(Parser):
             servidores.extend(result)
         return servidores
 
-    def parse(self, soup: BeautifulSoup) -> List[Dict]:
+    def parse(self, soup: BeautifulSoup) -> list[dict]:
         servidores: List[Dict] = []
         result = soup.find(TABLE, attrs={'rules': 'all'})
         trs = result.find_all(TR, attrs=None)
@@ -42,6 +43,8 @@ class PortalSPParser(Parser):
                     PORTAL_DICT_KEY: PortalTransparenciaEnum.SP.value}
                 for index, td in enumerate(tds):
                     if isinstance(td, Tag):
-                        servidor[NOME_CAMPOS_SP[index]] = clean_text(td.text)
+                        # pega apenas atributos em comum com outros portais
+                        if NOME_CAMPOS_SP[index] in self.ATTRS_TO_GET:
+                            servidor[NOME_CAMPOS_SP[index]] = clean_text(td.text)
                 servidores.append(servidor)
         return servidores

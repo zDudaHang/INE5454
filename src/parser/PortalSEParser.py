@@ -19,38 +19,22 @@ from bs4.element import Tag
 
 
 class PortalSEParser(Parser):
+    ATTRS_TO_GET = [NOME, CARGO, ORGAO, REMUNERACAO_MES]
 
-    def parse_with_requester(self, requester: SeRequester) -> dict:
+    def parse_with_requester(self, requester: SeRequester) -> list[dict]:
         servidores: List[Dict] = list()
         while requester.has_next():
-            page, first_page = requester.get_next()
+            page = requester.get_next()
             soup: BeautifulSoup = BeautifulSoup(page, 'html.parser')
-            result = self.parse(soup) if first_page else self.parse_last_page(soup)
+            result = self.parse(soup)
             servidores.extend(result)
         return servidores
 
-    def parse(self, soup: BeautifulSoup) -> List[Dict]:
+    def parse(self, soup: BeautifulSoup) -> list[dict]:
         servidores: List[Dict] = []
         table = soup.find(TABLE)
         tbody = table.find(TBODY, attrs={'id': 'frmPrincipal:Tabela_data'})
         trs = tbody.find_all(TR)
-        for tr in trs:
-            if isinstance(tr, Tag):
-                tds = tr.find_all(TD)
-                servidor = {
-                    PORTAL_DICT_KEY: PortalTransparenciaEnum.SC}
-                for index, td in enumerate(tds):
-                    if index > 6:
-                        continue
-                    if isinstance(td, Tag):
-                        servidor[NOME_CAMPOS_SE[index]] = clean_text(td.text)
-                servidores.append(servidor)
-        return servidores
-
-    def parse_last_page(self, soup: BeautifulSoup) -> List[Dict]:
-        servidores: List[Dict] = []
-        table = soup.find(TABLE)
-        trs = table.find_all(TR)
         for tr in trs:
             if isinstance(tr, Tag):
                 tds = tr.find_all(TD)
@@ -60,6 +44,8 @@ class PortalSEParser(Parser):
                     if index > 6:
                         continue
                     if isinstance(td, Tag):
-                        servidor[NOME_CAMPOS_SE[index]] = clean_text(td.text)
+                        # pega apenas atributos em comum com outrosportais
+                        if NOME_CAMPOS_SE[index] in self.ATTRS_TO_GET:
+                            servidor[NOME_CAMPOS_SE[index]] = td.text
                 servidores.append(servidor)
         return servidores

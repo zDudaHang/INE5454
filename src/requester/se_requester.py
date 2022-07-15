@@ -15,8 +15,10 @@ class SeRequester(Requester):
     REGEX_ACHAR_JSESSION = r'jsessionid=(.*?)\?ln'
     REGEX_TABLE_PAGES = r'<table role="grid">(.*?)</table>'
     REGEX_TABLE_LAST_PAGE = r'<update id="frmPrincipal:Tabela"><!\[CDATA\[(.*?)]]></update>'
-    TABLE_HEADER = r'<table role="grid">'
-    TABLE_FOOTER = r'</table>'
+    TABLE_INIT_TAG = '<table role="grid">'
+    TABLE_END_TAG = '</table>'
+    TBODY_INIT_TAG = '<tbody id="frmPrincipal:Tabela_data">'
+    TBODY_END_TAG = '</tbody>'
 
     def __init__(self, orgao: str = '4'):
         self.orgao = orgao
@@ -31,7 +33,7 @@ class SeRequester(Requester):
         self.VIEWSTATE = re.search(self.REGEX_ACHAR_VIEWSTATE_INICIAL, PAGE).group(1)
         self.jsessionid = re.search(self.REGEX_ACHAR_JSESSION, PAGE).group(1)
 
-    def get_next(self) -> (str, bool):
+    def get_next(self) -> str:
         self.get_html()
 
         self.VIEWSTATE = re.search(self.REGEX_ACHAR_VIEWSTATE_NOVA, self.PAGE).group(1)
@@ -39,17 +41,16 @@ class SeRequester(Requester):
             total_servidores = re.search(self.REGEX_ACHAR_TOTAL_SERVIDORES, self.PAGE).group(1)
             self.total_servidores = int(total_servidores)
             self.STARTED = True
-        first_page: bool = False
         try:
             table_content = re.search(self.REGEX_TABLE_PAGES, self.PAGE).group(1)
-            first_page = True
         except AttributeError:
             # ocorre quando o formato de resposta do servidor muda
             table_content = re.search(self.REGEX_TABLE_LAST_PAGE, self.PAGE).group(1)
+            table_content = self.TBODY_INIT_TAG + table_content + self.TBODY_END_TAG
         except:
             print('Houve algum tipo de erro na extração dos dados do html')
             exit(1)
-        return self.TABLE_HEADER + table_content + self.TABLE_FOOTER, first_page
+        return self.TABLE_INIT_TAG + table_content + self.TABLE_END_TAG
 
     def get_html(self) -> None:
         cookies = {
