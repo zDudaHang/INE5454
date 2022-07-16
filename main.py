@@ -1,6 +1,3 @@
-import json
-import os
-from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 
 from src.constants.paths import *
@@ -9,16 +6,14 @@ from src.constants.html_tags import *
 
 from src.crawler.PortalSCCrawler import PortalSCCrawler
 
-from src.util import print_info_message, print_when_debug_enabled
-
 URL_PORTAL_SC = "http://www.transparencia.sc.gov.br/remuneracao-servidores"
 
 if __name__ == '__main__':
     load_dotenv('/home/bridge/INE5454/.env')
 
     crawler = PortalSCCrawler(URL_PORTAL_SC)
-    crawler.crawl()
-    # print(servidores)
+    servidores = crawler.crawl()
+    print(servidores)
 
     # spParser = PortalSPParser(os.path.join(RESOURCES_DIR, SP_RESOURCES_DIR))
 
