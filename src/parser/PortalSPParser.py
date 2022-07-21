@@ -20,13 +20,20 @@ from bs4.element import Tag
 class PortalSPParser(Parser):
     ATTRS_TO_GET = [NOME, CARGO, ORGAO, REMUNERACAO]
 
-    def parse_with_requester(self, requester: SpRequester) -> list[dict]:
-        servidores: List[Dict] = list()
+    def parse_with_requester(self, requester: SpRequester, max_pages_to_parse: int = 20) -> list[dict]:
+        print('Extração SP começa:')
+        servidores: list[dict] = list()
+        pages_parsed = 0
         while requester.has_next():
+            if pages_parsed > max_pages_to_parse:
+                break
             page = requester.get_next()
             soup: BeautifulSoup = BeautifulSoup(page, 'html.parser')
             result = self.parse(soup)
             servidores.extend(result)
+            pages_parsed = pages_parsed + 1
+            print(f'pagina {pages_parsed} extraida;')
+        print('Extração SP termina;')
         return servidores
 
     def parse(self, soup: BeautifulSoup) -> list[dict]:

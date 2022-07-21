@@ -5,15 +5,13 @@ import time
 
 from bs4 import BeautifulSoup
 from selenium import webdriver
-from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
 from selenium.common.exceptions import NoSuchElementException
 from src.constants.angular import NG_MODEL
 
 from src.constants.common import DEFAULT_TIME_TO_WAIT
-from src.constants.portal_sc import TODAS_AS_SITUACOES, TODOS_OS_ORGAOS, DEFESA_CIVIL
-from src.constants.paths import *
+from src.constants.portal_sc import TODOS_OS_ORGAOS
 from src.parser.PortalSCParser import PortalSCParser
 from src.model.EnvironmentEnum import EnvironmentEnum
 from src.util import print_success_message, print_when_debug_enabled, print_error_message, print_info_message, convert_BR_number_to_EN_number
@@ -21,7 +19,8 @@ from src.crawler.PortalSCCrawlerState import PortalSCCrawlerState
 
 
 class PortalSCCrawler():
-    def __init__(self, portal_url: str):
+    def __init__(self, portal_url: str, max_pages_to_parse: int = 20):
+        self.max_pages_to_parse = max_pages_to_parse
         self.portal_url = portal_url
         self.parser = PortalSCParser()
         self.driver = webdriver.Firefox()
@@ -32,7 +31,6 @@ class PortalSCCrawler():
 
     def open(self):
         self.driver.get(self.portal_url)
-        # self.driver.maximize_window()
 
     def crawl(self, options: list[str] = [TODOS_OS_ORGAOS]) -> list[dict]:
         self.open()
@@ -48,7 +46,7 @@ class PortalSCCrawler():
                     continue
 
                 time.sleep(self.time_to_wait)
-                select.select_by_visible_text(DEFESA_CIVIL)
+                select.select_by_visible_text(option)
                 time.sleep(self.time_to_wait)
 
                 print_when_debug_enabled(
@@ -92,8 +90,11 @@ class PortalSCCrawler():
         self.servidores_extraidos.extend(servidores)
         self.state.print_actual_state()
 
-    def iterate_over_pages(self, num_ultima_pagina: int) -> List[Dict]:
+    def iterate_over_pages(self, num_ultima_pagina: int) -> list[dict]:
+        pages_parsed = 1
         for page_number in range(2, num_ultima_pagina + 1):
+            if pages_parsed > self.max_pages_to_parse:
+                break
             self.state.actual_processing_situacao_page = page_number
 
             time.sleep(self.time_to_wait)
@@ -112,6 +113,7 @@ class PortalSCCrawler():
             print_when_debug_enabled(
                 f'Página: {page_number}. Quantidade servidores encontrados: {servidores_pagina.__len__()}')
             self.state.print_actual_state()
+            pages_parsed = pages_parsed + 1
 
     def extract_data_to_validate(self):
         print_info_message('Extraindo dados para validação...')
