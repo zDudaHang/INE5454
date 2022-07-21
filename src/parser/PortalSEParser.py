@@ -18,7 +18,7 @@ from bs4.element import Tag
 
 
 class PortalSEParser(Parser):
-    ATTRS_TO_GET = [NOME, CARGO, ORGAO, REMUNERACAO_MES]
+    ATTRS_TO_GET = [NOME, CARGO, ORGAO, REMUNERACAO]
 
     def parse_with_requester(self, requester: SeRequester) -> list[dict]:
         servidores: List[Dict] = list()

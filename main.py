@@ -19,15 +19,12 @@ if __name__ == '__main__':
     sp_requester = SpRequester(orgao=71)
     parser = PortalSPParser()
     results = parser.parse_with_requester(sp_requester)
-    for result in results:
-        print(result)
 
     se_requester = SeRequester(orgao=4)
     parser = PortalSEParser()
-    results = parser.parse_with_requester(se_requester)
-    for result in results:
-        print(result)
+    results.extend(parser.parse_with_requester(se_requester))
 
     crawler = PortalSCCrawler(URL_PORTAL_SC)
-    servidores = crawler.crawl()
-    print(servidores)
+    results.extend(crawler.crawl(['DESESA CIVIL']))
+    for result in results:
+        print(result)

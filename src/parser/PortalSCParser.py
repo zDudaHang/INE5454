@@ -13,10 +13,11 @@ from src.util import print_when_verbose_enabled
 
 
 class PortalSCParser(Parser):
+    COLUNAS = ['NOME', 'CARGO', 'ORGAO', 'REMUNERACAO']
     def parse(self, soup: BeautifulSoup) -> List[Dict]:
         servidores: List[Dict] = []
-        colunas = self.encontrar_colunas(soup)
-        servidores = self.encontrar_valores(colunas, soup, servidores)
+        # colunas = self.encontrar_colunas(soup)
+        servidores = self.encontrar_valores(self.COLUNAS, soup, servidores)
         return servidores
 
     def encontrar_colunas(self, soup: BeautifulSoup) -> List[str]:
@@ -40,7 +41,9 @@ class PortalSCParser(Parser):
                 if (isinstance(tr, Tag)):
                     tds = tr.find_all(TD)
                     servidor = {
-                        PORTAL_DICT_KEY: PortalTransparenciaEnum.SC}
+                        PORTAL_DICT_KEY: PortalTransparenciaEnum.SC.value}
+                    # elimina info sobre situação
+                    tds.pop(1)
                     for index_th, td in enumerate(tds):
                         if (isinstance(td, Tag)):
                             span = td.find(SPAN)

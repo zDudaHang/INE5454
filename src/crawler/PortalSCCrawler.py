@@ -12,7 +12,7 @@ from selenium.common.exceptions import NoSuchElementException
 from src.constants.angular import NG_MODEL
 
 from src.constants.common import DEFAULT_TIME_TO_WAIT
-from src.constants.portal_sc import TODAS_AS_SITUACOES
+from src.constants.portal_sc import TODAS_AS_SITUACOES, TODOS_OS_ORGAOS, DEFESA_CIVIL
 from src.constants.paths import *
 from src.parser.PortalSCParser import PortalSCParser
 from src.model.EnvironmentEnum import EnvironmentEnum
@@ -32,38 +32,36 @@ class PortalSCCrawler():
 
     def open(self):
         self.driver.get(self.portal_url)
-        self.driver.maximize_window()
+        # self.driver.maximize_window()
 
-    def crawl(self) -> List[Dict]:
+    def crawl(self, options: list[str] = [TODOS_OS_ORGAOS]) -> list[dict]:
         self.open()
 
         time.sleep(self.time_to_wait)
         selectWebElement = self.driver.find_element(
-            By.CSS_SELECTOR, f"select[{NG_MODEL}='filtros.situacao']")
+            By.CSS_SELECTOR, f"select[{NG_MODEL}='filtros.orgao']")
         select = Select(selectWebElement)
 
         try:
-            for option in select.options:
-                if isinstance(option, WebElement):
-                    option_text = option.text
-                    if option_text == TODAS_AS_SITUACOES:
-                        continue
+            for option in options:
+                if option == TODOS_OS_ORGAOS:
+                    continue
 
-                    time.sleep(self.time_to_wait)
-                    select.select_by_visible_text(option_text)
-                    time.sleep(self.time_to_wait)
+                time.sleep(self.time_to_wait)
+                select.select_by_visible_text(DEFESA_CIVIL)
+                time.sleep(self.time_to_wait)
 
-                    print_when_debug_enabled(
-                        f'======= Situação: {option_text}')
+                print_when_debug_enabled(
+                    f'======= Situação: {option}')
 
-                    self.extract_data_to_validate()
+                self.extract_data_to_validate()
 
-                    self.state.actual_processing_situacao = option_text
-                    self.extract_by_situacao()
-                    self.state.full_extracted_situacoes.append(option_text)
+                self.state.actual_processing_situacao = option
+                self.extract_by_situacao()
+                self.state.full_extracted_situacoes.append(option)
 
-                    if not self.isValid():
-                        break
+                if not self.isValid():
+                    break
         except Exception as e:
             print_error_message('Um erro aconteceu. Estado do Crawler:')
             print(self.state.__str__())
@@ -73,7 +71,6 @@ class PortalSCCrawler():
             return self.servidores_extraidos
 
     def extract_by_situacao(self):
-        num_ultima_pagina = 1
         try:
             num_ultima_pagina = int(self.driver.find_element(
                 By.CSS_SELECTOR, "a[ng-click='lastPage()']").text)
@@ -101,7 +98,7 @@ class PortalSCCrawler():
 
             time.sleep(self.time_to_wait)
             botao_proximo = self.driver.find_element(
-                By.CSS_SELECTOR, "a[ng-click='nextPage()']")
+                By.CSS_SELECTOR, '[ng-click="nextPage()"]')
             botao_proximo.click()
             time.sleep(self.time_to_wait)
 
