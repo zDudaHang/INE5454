@@ -19,7 +19,7 @@ class SeRequester(Requester):
     TBODY_INIT_TAG = '<tbody id="frmPrincipal:Tabela_data">'
     TBODY_END_TAG = '</tbody>'
 
-    def __init__(self, orgao: str = '4'):
+    def __init__(self, orgao: int = '4'):
         self.orgao = orgao
         self.status_code = '200'
         self.servidores_ja_vistos = 0
@@ -94,7 +94,7 @@ class SeRequester(Requester):
                     'frmPrincipal:mes_focus': "",
                     'frmPrincipal:mes_input': "06",
                     'frmPrincipal:selOrgao_focus': "",
-                    'frmPrincipal:selOrgao_input': self.orgao,
+                    'frmPrincipal:selOrgao_input': str(self.orgao),
                     'javax.faces.ViewState': self.VIEWSTATE
                 }
             )

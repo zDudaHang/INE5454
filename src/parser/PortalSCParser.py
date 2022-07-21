@@ -14,6 +14,7 @@ from src.util import print_when_verbose_enabled
 
 class PortalSCParser(Parser):
     COLUNAS = ['NOME', 'CARGO', 'ORGAO', 'REMUNERACAO']
+
     def parse(self, soup: BeautifulSoup) -> List[Dict]:
         servidores: List[Dict] = []
         # colunas = self.encontrar_colunas(soup)
@@ -48,7 +49,11 @@ class PortalSCParser(Parser):
                         if (isinstance(td, Tag)):
                             span = td.find(SPAN)
                             if (isinstance(span, Tag)):
-                                servidor[colunas[index_th]] = span.text
+                                text = span.text
+                                if text.find('R$') != -1:
+                                    text = text.replace('R$', '')
+                                    text = text.strip()
+                                servidor[colunas[index_th]] = text
                     servidores.append(servidor)
             print_when_verbose_enabled(f'servidores encontrados={servidores}')
         return servidores
