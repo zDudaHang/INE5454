@@ -39,3 +39,27 @@ def print_success_message(text: str) -> None:
 
 def print_error_message(text: str) -> None:
     print(f"[{colored('ERRO', 'red')}] {text}")
+
+
+def get_cargos(servidores: list[dict]) -> list:
+    cargos = list()
+    for servidor in servidores:
+        if servidor['CARGO'] not in cargos:
+            cargos.append(servidor['CARGO'])
+    return cargos
+
+
+def write_to_file(cargos: list, filename: str) -> None:
+    with open(f'{filename}', 'w') as fp:
+        fp.write('{')
+        for cargo in cargos:
+            fp.write('"%s": "",\n' % cargo)
+        fp.write('}')
+        print('Done')
+
+
+def update_cargos(servidores: list[dict], cargos_atualizados: dict) -> list[dict]:
+    for servidor in servidores:
+        if servidor['CARGO'] in cargos_atualizados.keys():
+            servidor['CARGO'] = cargos_atualizados[servidor['CARGO']]
+    return servidores
