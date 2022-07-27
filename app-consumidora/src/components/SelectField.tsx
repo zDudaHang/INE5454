@@ -7,8 +7,8 @@ interface SelectFieldProps<FieldValue> extends FieldRenderProps<FieldValue> {
   placeholder: string
   multiple?: boolean
   required?: boolean
+  clearable?: boolean
   items: FieldValue[]
-
   itemToString(item: FieldValue): string
   itemIsEqual(a: FieldValue, b: FieldValue): boolean
 }

@@ -31,10 +31,12 @@ export function GraficoForm(props: GraficoFormProps) {
                 {...props}
                 label='Cargos'
                 placeholder='Selecione os cargos que queira filtrar'
-                multiple
                 items={cargos}
                 itemToString={itemToString}
                 itemIsEqual={isEqual}
+                multiple
+                clearable
+                required
               />
             )}
           />
@@ -48,10 +50,12 @@ export function GraficoForm(props: GraficoFormProps) {
                 name='estados'
                 label='Estados'
                 placeholder='Selecione os estados que queira filtrar'
-                multiple
                 items={estados}
                 itemToString={itemToString}
                 itemIsEqual={isEqual}
+                multiple
+                clearable
+                required
               />
             )}
           />
