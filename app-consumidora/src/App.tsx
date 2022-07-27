@@ -1,4 +1,5 @@
-import { FileUploader, VFlow, Heading } from 'bold-ui'
+import { css } from '@emotion/core'
+import { FileUploader, VFlow, Heading, HFlow } from 'bold-ui'
 import React, { useState } from 'react'
 import './App.css'
 import { GraficosView } from './components/GraficosView'
@@ -34,16 +35,22 @@ function App() {
     })
   }
 
-  return (
-    <VFlow>
+  return servidores.length !== 0 ? (
+    <GraficosView servidores={servidores} estados={Array.from(estados)} cargos={Array.from(cargos)} />
+  ) : (
+    <HFlow style={styles.container} justifyContent='center'>
       <FileUploader onDropAccepted={handleDropAccepted} text='Importe os servidores aqui' />
-      {servidores.length !== 0 ? (
-        <GraficosView servidores={servidores} estados={estados} cargos={cargos} />
-      ) : (
-        <Heading level={2}>Primeiro, importe os servidores</Heading>
-      )}
-    </VFlow>
+    </HFlow>
   )
+}
+
+const styles = {
+  heading: css`
+    text-align: center;
+  `,
+  container: css`
+    margin-top: 1rem;
+  `,
 }
 
 export default App

@@ -9,7 +9,7 @@ from src.model.PortalTransparenciaEnum import PortalTransparenciaEnum
 from bs4 import BeautifulSoup
 from bs4.element import Tag
 
-from src.util import print_when_verbose_enabled
+from src.util import print_when_verbose_enabled, convert_BR_number_to_EN_number
 
 
 class PortalSCParser(Parser):
@@ -53,7 +53,8 @@ class PortalSCParser(Parser):
                                 if text.find('R$') != -1:
                                     text = text.replace('R$', '')
                                     text = text.strip()
-                                servidor[colunas[index_th]] = text
+                                servidor[colunas[index_th]
+                                         ] = convert_BR_number_to_EN_number(text)
                     servidores.append(servidor)
             print_when_verbose_enabled(f'servidores encontrados={servidores}')
         return servidores

@@ -1,21 +1,17 @@
 import React from 'react'
-import { css } from '@emotion/core'
-import { Button, Cell, Grid, Heading, HFlow, isEqual, VFlow } from 'bold-ui'
+import { Button, Cell, Grid, VFlow } from 'bold-ui'
 import { Field, Form, FormRenderProps } from 'react-final-form'
-import { SelectAdapter } from './adapters/SelectAdapter'
 
-interface GraficoFormProps {
-  estados: Set<string>
-  cargos: Set<string>
-  handleSubmit(values: GraficoFormModel): void
-}
-
-interface GraficoFormModel {
+export interface GraficoFormModel {
   estados: string[]
   cargos: string[]
 }
 
-const itemToString = (item: string) => item
+interface GraficoFormProps {
+  estados: string[]
+  cargos: string[]
+  handleSubmit(values: GraficoFormModel): void
+}
 
 export function GraficoForm(props: GraficoFormProps) {
   const { cargos, estados, handleSubmit } = props
@@ -24,28 +20,28 @@ export function GraficoForm(props: GraficoFormProps) {
     return (
       <Grid wrap justifyContent='center'>
         <Cell size={6}>
-          <Field
-            component={SelectAdapter}
-            name='cargos'
-            label='Cargos'
-            placeholder='Selecione os cargos'
-            items={Array.from(cargos)}
-            itemToString={itemToString}
-            itemIsEqual={isEqual}
-            clearable
-          />
+          <VFlow>
+            <label>Cargos</label>
+            <Field component='select' type='select' name='cargos' multiple>
+              {cargos.map((cargo) => (
+                <option key={cargo} value={cargo}>
+                  {cargo}
+                </option>
+              ))}
+            </Field>
+          </VFlow>
         </Cell>
         <Cell size={6}>
-          <Field
-            component={SelectAdapter}
-            name='estados'
-            label='Estados'
-            placeholder='Selecione os estados'
-            items={Array.from(estados)}
-            itemToString={itemToString}
-            itemIsEqual={isEqual}
-            clearable
-          />
+          <VFlow>
+            <label>Estados</label>
+            <Field component='select' type='select' name='estados' multiple>
+              {estados.map((estado) => (
+                <option key={estado} value={estado}>
+                  {estado}
+                </option>
+              ))}
+            </Field>
+          </VFlow>
         </Cell>
         <Cell size={12}>
           <Button type='submit' kind='primary' onClick={formProps.handleSubmit}>
@@ -56,10 +52,5 @@ export function GraficoForm(props: GraficoFormProps) {
     )
   }
 
-  return (
-    <VFlow>
-      <Heading level={2}>Gráfico</Heading>
-      <Form<GraficoFormModel> render={renderForm} onSubmit={handleSubmit} />
-    </VFlow>
-  )
+  return <Form<GraficoFormModel> render={renderForm} onSubmit={handleSubmit} />
 }

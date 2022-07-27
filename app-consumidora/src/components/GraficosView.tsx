@@ -1,34 +1,36 @@
 import { VFlow } from 'bold-ui'
-import React from 'react'
+import React, { useState } from 'react'
 import { ServidorModel } from '../model'
-import { GraficoForm } from './GraficoForm'
+import { GraficoForm, GraficoFormModel } from './GraficoForm'
 import { GraficoSalarioPorCargo } from './GraficoSalarioPorCargo'
 
 interface GraficosViewProps {
   servidores: ServidorModel[]
-  estados: Set<string>
-  cargos: Set<string>
+  estados: string[]
+  cargos: string[]
 }
 
 export function GraficosView(props: GraficosViewProps) {
-  const { servidores, ...formProps } = props
+  const { servidores, cargos, estados } = props
 
-  const handleCargosChange = (cargos: string[]) => {}
+  const [servidoresFiltrados, setServidoresFiltrados] = useState<ServidorModel[]>([])
+  const [cargosSelecionados, setCargosSelecionados] = useState<string[]>([])
 
-  const handleEstadosChange = (estados: string[]) => {}
-
-  // const servidoresFiltrados = useMemo(
-  //   () =>
-  //     servidores.filter(
-  //       (servidor) => cargosSelecionados.includes(servidor.cargo) && estadosSelecionados.includes(servidor.portal)
-  //     ),
-  //   [cargosSelecionados, estadosSelecionados, servidores]
-  // )
+  const handleSubmit = (values: GraficoFormModel) => {
+    const { cargos: cargosSelecionados, estados: estadosSelecionados } = values
+    const servidoresSelecionados = servidores.filter(
+      (servidor) => cargosSelecionados.includes(servidor.cargo) && estadosSelecionados.includes(servidor.portal)
+    )
+    setServidoresFiltrados(servidoresSelecionados)
+    setCargosSelecionados([...cargosSelecionados])
+  }
 
   return (
     <VFlow>
-      <GraficoForm handleSubmit={console.log} {...formProps} />
-      <GraficoSalarioPorCargo servidores={servidores} />
+      <GraficoForm handleSubmit={handleSubmit} estados={estados} cargos={cargos} />
+      {servidoresFiltrados.length > 0 && cargosSelecionados.length > 0 && (
+        <GraficoSalarioPorCargo servidores={servidoresFiltrados} cargos={cargosSelecionados} />
+      )}
     </VFlow>
   )
 }
