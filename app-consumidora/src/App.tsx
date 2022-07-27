@@ -1,5 +1,5 @@
 import { css } from '@emotion/core'
-import { FileUploader, VFlow, Heading, HFlow } from 'bold-ui'
+import { FileUploader, HFlow } from 'bold-ui'
 import React, { useState } from 'react'
 import './App.css'
 import { GraficosView } from './components/GraficosView'

@@ -1,6 +1,8 @@
-import React from 'react'
-import { Button, Cell, Grid, VFlow } from 'bold-ui'
+/** @jsx jsx */
+import { jsx, css } from '@emotion/core'
+import { Button, Cell, Grid, HFlow, isEqual } from 'bold-ui'
 import { Field, Form, FormRenderProps } from 'react-final-form'
+import { SelectField } from './SelectField'
 
 export interface GraficoFormModel {
   estados: string[]
@@ -13,44 +15,67 @@ interface GraficoFormProps {
   handleSubmit(values: GraficoFormModel): void
 }
 
+const itemToString = (item: string) => item
+
 export function GraficoForm(props: GraficoFormProps) {
   const { cargos, estados, handleSubmit } = props
 
   const renderForm = (formProps: FormRenderProps<GraficoFormModel>) => {
     return (
-      <Grid wrap justifyContent='center'>
+      <Grid wrap style={styles.container} justifyContent='center'>
         <Cell size={6}>
-          <VFlow>
-            <label>Cargos</label>
-            <Field component='select' type='select' name='cargos' multiple>
-              {cargos.map((cargo) => (
-                <option key={cargo} value={cargo}>
-                  {cargo}
-                </option>
-              ))}
-            </Field>
-          </VFlow>
+          <Field
+            name='cargos'
+            render={(props) => (
+              <SelectField
+                {...props}
+                label='Cargos'
+                placeholder='Selecione os cargos que queira filtrar'
+                multiple
+                items={cargos}
+                itemToString={itemToString}
+                itemIsEqual={isEqual}
+              />
+            )}
+          />
         </Cell>
         <Cell size={6}>
-          <VFlow>
-            <label>Estados</label>
-            <Field component='select' type='select' name='estados' multiple>
-              {estados.map((estado) => (
-                <option key={estado} value={estado}>
-                  {estado}
-                </option>
-              ))}
-            </Field>
-          </VFlow>
+          <Field
+            name='estados'
+            render={(props) => (
+              <SelectField
+                {...props}
+                name='estados'
+                label='Estados'
+                placeholder='Selecione os estados que queira filtrar'
+                multiple
+                items={estados}
+                itemToString={itemToString}
+                itemIsEqual={isEqual}
+              />
+            )}
+          />
         </Cell>
-        <Cell size={12}>
-          <Button type='submit' kind='primary' onClick={formProps.handleSubmit}>
-            Gerar gráfico
-          </Button>
+        <Cell size={6} style={styles.buttonsContainer}>
+          <HFlow justifyContent='flex-end'>
+            <Button kind='primary' size='medium' onClick={formProps.handleSubmit}>
+              Gerar gráfico
+            </Button>
+          </HFlow>
         </Cell>
       </Grid>
     )
   }
 
   return <Form<GraficoFormModel> render={renderForm} onSubmit={handleSubmit} />
+}
+
+const styles = {
+  container: css`
+    margin-top: 2rem;
+  `,
+  buttonsContainer: css`
+    padding-left: 2rem;
+    padding-right: 0;
+  `,
 }

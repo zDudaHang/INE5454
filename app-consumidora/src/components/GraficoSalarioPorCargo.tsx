@@ -1,8 +1,8 @@
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid } from 'recharts'
 import { ServidorModel } from '../model'
-import { Dictionary, forEach, groupBy, map, maxBy, reduce } from 'lodash'
-import React from 'react'
+import { forEach, groupBy, maxBy } from 'lodash'
 import { randomHexColor } from './util'
+import React from 'react'
 
 interface GraficoSalarioPorCargoProps {
   servidores: ServidorModel[]
@@ -26,7 +26,7 @@ export function GraficoSalarioPorCargo(props: GraficoSalarioPorCargoProps) {
   })
 
   return (
-    <div style={{ width: '100%', height: 500 }}>
+    <div style={{ justifyContent: 'center', alignContent: 'center', marginTop: '2rem', width: '100%', height: 600 }}>
       <ResponsiveContainer>
         <BarChart
           width={150}
@@ -44,8 +44,8 @@ export function GraficoSalarioPorCargo(props: GraficoSalarioPorCargoProps) {
           <YAxis />
           <Tooltip />
           <Legend />
-          {cargos.map((cargo) => (
-            <Bar dataKey={cargo} fill={randomHexColor()} />
+          {cargos.map((cargo, index) => (
+            <Bar key={index} dataKey={cargo} fill={randomHexColor()} />
           ))}
         </BarChart>
       </ResponsiveContainer>
