@@ -17,22 +17,8 @@ class PortalSCParser(Parser):
 
     def parse(self, soup: BeautifulSoup) -> List[Dict]:
         servidores: List[Dict] = []
-        # colunas = self.encontrar_colunas(soup)
         servidores = self.encontrar_valores(self.COLUNAS, soup, servidores)
         return servidores
-
-    def encontrar_colunas(self, soup: BeautifulSoup) -> List[str]:
-        colunas: List[str] = []
-        thead = soup.find(THEAD)
-        if (isinstance(thead, Tag)):
-            ths = thead.find_all(TH)
-            for th in ths:
-                if (isinstance(th, Tag)):
-                    span = th.find(SPAN)
-                if (isinstance(span, Tag)):
-                    colunas.append(span.text.strip())
-        print_when_verbose_enabled(f'Colunas={colunas}')
-        return colunas
 
     def encontrar_valores(self, colunas: List[str], soup: BeautifulSoup, servidores: List[Dict]) -> List[Dict]:
         tbody = soup.find(TBODY)

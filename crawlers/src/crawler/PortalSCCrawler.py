@@ -50,12 +50,12 @@ class PortalSCCrawler():
                 time.sleep(self.time_to_wait)
 
                 print_when_debug_enabled(
-                    f'======= Situação: {option}')
+                    f'======= Órgão: {option}')
 
                 self.extract_data_to_validate()
 
                 self.state.actual_processing_situacao = option
-                self.extract_by_situacao()
+                self.extract_by_orgao()
                 self.state.full_extracted_situacoes.append(option)
 
                 if not self.isValid():
@@ -68,7 +68,7 @@ class PortalSCCrawler():
             self.driver.quit()
             return self.servidores_extraidos
 
-    def extract_by_situacao(self):
+    def extract_by_orgao(self):
         try:
             num_ultima_pagina = int(self.driver.find_element(
                 By.CSS_SELECTOR, "a[ng-click='lastPage()']").text)
